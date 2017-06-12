@@ -132,6 +132,9 @@ dockerfile:
 		php:alpine php -f /Dockerfile.php -- \
 			--dockerfile='$(DOCKERFILE)' \
 		> $(DOCKERFILE)/Dockerfile
+	rm -rf $(DOCKERFILE)/rootfs
+	cp -rf rootfs $(DOCKERFILE)/
+	git add $(DOCKERFILE)/rootfs
 
 
 
