@@ -14,6 +14,7 @@
 
 IMAGE_NAME := instrumentisto/opendkim
 ALL_IMAGES := \
+	debian:2.10.3,2.10,2,latest \
 	alpine:2.10.3-alpine,2.10-alpine,2-alpine,alpine
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
 
