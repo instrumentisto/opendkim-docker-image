@@ -67,7 +67,7 @@
       'nmap -p 8890 opendkim | grep "8890/tcp" | grep "open"'
   [ "$status" -eq 0 ]
 
-  run docker rm -f test-dovecot
+  run docker rm -f test-opendkim
 }
 
 @test "drop-in: opendkim PID file is applied correctly" {
