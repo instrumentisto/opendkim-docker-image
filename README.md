@@ -55,10 +55,10 @@ To configure OpenDKIM you may use one of the following ways (but __not both at t
     This way is convenient if you need only few changes to default configuration, or you want to keep different parts of configuration in different files.
 
 2.  Specify __whole configuration__.  
-    Put your configuration files (`opendkim.conf`) in `/etc/opendkim/` directory, so fully replace the default configuration file provided by image.
+    Put your configuration file `opendkim.conf` into `/etc/opendkim/` directory, so fully replace the default configuration file provided by image.
     
     ```bash
-    docker run -d -p 25:25 \
+    docker run -d -p 8891:8891 \
                -v /my/custom.conf:/etc/opendkim/opendkim.conf:ro \
            instrumentisto/opendkim
     ```
@@ -137,7 +137,7 @@ This image contains [`s6-overlay`][21] inside. So you may use all the [features 
 
 ## License
 
-OpenDKIM itself is licensed under [this license][91].
+OpenDKIM itself is licensed under [BSD license][91].
 
 OpenDKIM Docker image is licensed under [MIT license][92].
 
