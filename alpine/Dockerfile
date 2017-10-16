@@ -14,23 +14,23 @@ RUN apk update \
  && apk add --no-cache \
         ca-certificates \
  && update-ca-certificates \
-
+    \
  # Install OpenDKIM dependencies
  && apk add --no-cache \
         libressl2.5-libcrypto libressl2.5-libssl \
         libmilter \
         # Perl and LibreSSL required for opendkim-* utilities
         libressl perl \
-
+    \
  # Install tools for building
  && apk add --no-cache --virtual .tool-deps \
         curl coreutils autoconf g++ libtool make \
-
+    \
  # Install OpenDKIM build dependencies
  && apk add --no-cache --virtual .build-deps \
         libressl-dev \
         libmilter-dev \
-
+    \
  # Download and prepare OpenDKIM sources
  && curl -fL -o /tmp/opendkim.tar.gz \
          https://downloads.sourceforge.net/project/opendkim/opendkim-2.10.3.tar.gz \
@@ -38,7 +38,7 @@ RUN apk update \
          | sha512sum -c -) \
  && tar -xzf /tmp/opendkim.tar.gz -C /tmp/ \
  && cd /tmp/opendkim-* \
-
+    \
  # Build OpenDKIM from sources
  && ./configure \
         --prefix=/usr \
@@ -49,7 +49,7 @@ RUN apk update \
         --infodir=/tmp/opendkim/info \
         --mandir=/tmp/opendkim/man \
  && make \
-
+    \
  # Create OpenDKIM user and group
  && addgroup -S -g 91 opendkim \
  && adduser -S -u 90 -D -s /sbin/nologin \
@@ -57,7 +57,7 @@ RUN apk update \
             -G opendkim -g opendkim \
             opendkim \
  && addgroup opendkim mail \
-
+    \
  # Install OpenDKIM
  && make install \
  # Prepare run directory
@@ -68,7 +68,7 @@ RUN apk update \
        /usr/share/licenses/opendkim/ \
  # Prepare configuration directories
  && install -d /etc/opendkim/conf.d/ \
-
+    \
  # Cleanup unnecessary stuff
  && apk del .tool-deps .build-deps \
  && rm -rf /var/cache/apk/* \
@@ -81,7 +81,7 @@ RUN apk add --update --no-cache --virtual .tool-deps \
  && curl -fL -o /tmp/s6-overlay.tar.gz \
          https://github.com/just-containers/s6-overlay/releases/download/v1.20.0.0/s6-overlay-amd64.tar.gz \
  && tar -xzf /tmp/s6-overlay.tar.gz -C / \
-
+    \
  # Cleanup unnecessary stuff
  && apk del .tool-deps \
  && rm -rf /var/cache/apk/* \

@@ -14,20 +14,20 @@ RUN apt-get update \
             inetutils-syslogd \
             ca-certificates \
  && update-ca-certificates \
-
+    \
  # Install OpenDKIM dependencies
  && apt-get install -y --no-install-recommends --no-install-suggests \
             libssl1.0.0 \
             libmilter1.0.1 \
             libbsd0 \
-
+    \
  # Install tools for building
  && toolDeps=" \
         curl make gcc g++ libc-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             $toolDeps \
-
+    \
  # Install OpenDKIM build dependencies
  && buildDeps=" \
         libssl-dev \
@@ -36,7 +36,7 @@ RUN apt-get update \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             $buildDeps \
-
+    \
  # Download and prepare OpenDKIM sources
  && curl -fL -o /tmp/opendkim.tar.gz \
          https://downloads.sourceforge.net/project/opendkim/opendkim-2.10.3.tar.gz \
@@ -44,7 +44,7 @@ RUN apt-get update \
          | sha512sum -c -) \
  && tar -xzf /tmp/opendkim.tar.gz -C /tmp/ \
  && cd /tmp/opendkim-* \
-
+    \
  # Build OpenDKIM from sources
  && ./configure \
         --prefix=/usr \
@@ -55,7 +55,7 @@ RUN apt-get update \
         --infodir=/tmp/opendkim/info \
         --mandir=/tmp/opendkim/man \
  && make \
-
+    \
  # Create OpenDKIM user and group
  && addgroup --system --gid 91 opendkim \
  && adduser --system --uid 90 --disabled-password --shell /sbin/nologin \
@@ -63,7 +63,7 @@ RUN apt-get update \
             --ingroup opendkim --gecos opendkim \
             opendkim \
  && adduser opendkim mail \
-
+    \
  # Install OpenDKIM
  && make install \
  # Prepare run directory
@@ -74,7 +74,7 @@ RUN apt-get update \
        /usr/share/licenses/opendkim/ \
  # Prepare configuration directories
  && install -d /etc/opendkim/conf.d/ \
-
+    \
  # Cleanup unnecessary stuff
  && apt-get purge -y --auto-remove \
                   -o APT::AutoRemove::RecommendsImportant=false \
@@ -91,7 +91,7 @@ RUN apt-get update \
  && curl -fL -o /tmp/s6-overlay.tar.gz \
          https://github.com/just-containers/s6-overlay/releases/download/v1.20.0.0/s6-overlay-amd64.tar.gz \
  && tar -xzf /tmp/s6-overlay.tar.gz -C / \
-
+    \
  # Cleanup unnecessary stuff
  && apt-get purge -y --auto-remove \
                   -o APT::AutoRemove::RecommendsImportant=false \
