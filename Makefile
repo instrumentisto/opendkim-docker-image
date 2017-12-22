@@ -25,6 +25,7 @@ VERSION ?=  $(word 1,$(subst $(comma), ,\
                      $(word 2,$(subst :, ,$(word 1,$(ALL_IMAGES))))))
 TAGS ?= $(word 2,$(subst :, ,$(word 1,$(ALL_IMAGES))))
 
+
 comma := ,
 eq = $(if $(or $(1),$(2)),$(and $(findstring $(1),$(2)),\
                                 $(findstring $(2),$(1))),1)
@@ -127,7 +128,6 @@ src-all:
 #
 # Usage:
 #	make dockerfile [DOCKERFILE=<dockerfile-dir>]
-#	                [TAGS=<docker-tag-1>[,<docker-tag-2>...]]
 
 dockerfile:
 	mkdir -p $(DOCKERFILE)
