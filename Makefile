@@ -201,7 +201,7 @@ endef
 
 # Run tests for Docker image.
 #
-# Documentation of Bats-core:
+# Documentation of Bats:
 #	https://github.com/bats-core/bats-core
 #
 # Usage:
