@@ -13,7 +13,7 @@ $S6OverlayVer = '1.21.7.0';
 
 <? if ($isAlpineImage) { ?>
 # https://hub.docker.com/_/alpine
-FROM alpine:3.10
+FROM alpine:3.11
 <? } else { ?>
 # https://hub.docker.com/_/debian
 FROM debian:jessie-slim
@@ -39,7 +39,7 @@ RUN apt-get update \
  # Install OpenDKIM dependencies
 <? if ($isAlpineImage) { ?>
  && apk add --no-cache \
-        libressl2.7-libcrypto libressl2.7-libssl \
+        libressl3.0-libcrypto libressl3.0-libssl \
         libmilter \
         # Perl and LibreSSL required for opendkim-* utilities
         libressl perl \
