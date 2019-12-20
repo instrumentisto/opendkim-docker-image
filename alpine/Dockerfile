@@ -4,8 +4,6 @@
 # https://hub.docker.com/_/alpine
 FROM alpine:3.10
 
-MAINTAINER Instrumentisto Team <developer@instrumentisto.com>
-
 
 # Build and install OpenDKIM
 # https://git.alpinelinux.org/cgit/aports/tree/community/opendkim/APKBUILD?h=3b749b4a926cd6db8c9f9f65b71d2f94e3fb08e5

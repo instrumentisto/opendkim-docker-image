@@ -4,8 +4,6 @@
 # https://hub.docker.com/_/debian
 FROM debian:jessie-slim
 
-MAINTAINER Instrumentisto Team <developer@instrumentisto.com>
-
 
 # Build and install OpenDKIM
 RUN apt-get update \

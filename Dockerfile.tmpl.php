@@ -19,8 +19,6 @@ FROM alpine:3.10
 FROM debian:jessie-slim
 <? } ?>
 
-MAINTAINER Instrumentisto Team <developer@instrumentisto.com>
-
 
 # Build and install OpenDKIM
 <? if ($isAlpineImage) { ?>
