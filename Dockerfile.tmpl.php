@@ -43,6 +43,9 @@ RUN apt-get update \
         libmilter \
         # Perl and LibreSSL required for opendkim-* utilities
         libressl perl \
+ # Add openssl symlink to libressl to fix incompatibility with OpenDKIM
+ # since Alpine 3.11
+ && ln -sf /usr/bin/libressl /usr/bin/openssl \
 <? } else { ?>
  && apt-get install -y --no-install-recommends --no-install-suggests \
             libssl1.0.0 \
@@ -115,10 +118,6 @@ RUN apt-get update \
     \
  # Install OpenDKIM
  && make install \
-<? if ($isAlpineImage) { ?>
- # Add symlink openssl to libressl to fix incompatibility with OpenDKIM since Alpine 3.11
- && ln -sf /usr/bin/libressl /usr/bin/openssl \
-<? } ?>
  # Prepare run directory
  && install -d -o opendkim -g opendkim /run/opendkim/ \
  # Preserve licenses

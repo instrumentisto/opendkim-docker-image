@@ -19,6 +19,9 @@ RUN apk update \
         libmilter \
         # Perl and LibreSSL required for opendkim-* utilities
         libressl perl \
+ # Add openssl symlink to libressl to fix incompatibility with OpenDKIM
+ # since Alpine 3.11
+ && ln -sf /usr/bin/libressl /usr/bin/openssl \
     \
  # Install tools for building
  && apk add --no-cache --virtual .tool-deps \
@@ -58,8 +61,6 @@ RUN apk update \
     \
  # Install OpenDKIM
  && make install \
- # Add symlink openssl to libressl to fix incompatibility with OpenDKIM since Alpine 3.11
- && ln -sf /usr/bin/libressl /usr/bin/openssl \
  # Prepare run directory
  && install -d -o opendkim -g opendkim /run/opendkim/ \
  # Preserve licenses
