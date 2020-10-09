@@ -49,7 +49,8 @@
 }
 
 @test "opendkim-genkey: runs ok" {
-  run docker run --rm --entrypoint sh $IMAGE -c 'opendkim-genkey --help'
+  run docker run --rm --entrypoint sh $IMAGE -c \
+    'opendkim-genkey && [ -f default.private ] && [ -f default.txt ]'
   [ "$status" -eq 0 ]
 }
 
