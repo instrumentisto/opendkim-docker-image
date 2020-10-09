@@ -58,6 +58,8 @@ RUN apk update \
     \
  # Install OpenDKIM
  && make install \
+ # Add symlink openssl to libressl to fix incompatibility with OpenDKIM since Alpine 3.11
+ && ln -sf /usr/bin/libressl /usr/bin/openssl \
  # Prepare run directory
  && install -d -o opendkim -g opendkim /run/opendkim/ \
  # Preserve licenses
