@@ -1,259 +1,240 @@
-# This Makefile automates possible operations of this project.
-#
-# Images and description on Docker Hub will be automatically rebuilt on
-# pushes to `master` branch of this repo and on updates of parent images.
-#
-# Note! Docker Hub `post_push` hook must be always up-to-date with default
-# values of current Makefile. To update it just use one of:
-#	make post-push-hook-all
-#	make src-all
-#
-# It's still possible to build, tag and push images manually. Just use:
-#	make release-all
-
-
-IMAGE_NAME := instrumentisto/opendkim
-ALL_IMAGES := \
-	debian:2.10.3,2.10,2,latest \
-	alpine:2.10.3-alpine,2.10-alpine,2-alpine,alpine
-#	<Dockerfile>:<version>,<tag1>,<tag2>,...
-
-
-# Default is first image from ALL_IMAGES list.
-DOCKERFILE ?= $(word 1,$(subst :, ,$(word 1,$(ALL_IMAGES))))
-VERSION ?=  $(word 1,$(subst $(comma), ,\
-                     $(word 2,$(subst :, ,$(word 1,$(ALL_IMAGES))))))
-TAGS ?= $(word 2,$(subst :, ,$(word 1,$(ALL_IMAGES))))
-
+###############################
+# Common defaults/definitions #
+###############################
 
 comma := ,
+empty :=
+space := $(empty) $(empty)
+
+# Checks two given strings for equality.
 eq = $(if $(or $(1),$(2)),$(and $(findstring $(1),$(2)),\
                                 $(findstring $(2),$(1))),1)
 
 
 
-# Build Docker image.
+
+######################
+# Project parameters #
+######################
+
+NAMESPACES := instrumentisto \
+              ghcr.io/instrumentisto \
+              quay.io/instrumentisto
+NAME := opendkim
+ALL_IMAGES := \
+	debian:2.10.3-r0,2.10.3,2.10,2,latest \
+	alpine:2.10.3-r0-alpine,2.10.3-alpine,2.10-alpine,2-alpine,alpine
+#	<Dockerfile>:<version>,<tag1>,<tag2>,...
+
+# Default is first image from ALL_IMAGES list.
+DOCKERFILE ?= $(word 1,$(subst :, ,$(word 1,$(ALL_IMAGES))))
+TAGS ?= $(word 1,$(subst |, ,\
+	$(word 2,!$(subst $(DOCKERFILE):, ,$(subst $(space),|,$(ALL_IMAGES))))))
+VERSION ?= $(word 1,$(subst -, ,$(TAGS)))-$(word 2,$(strip \
+	$(subst -, ,$(subst $(comma), ,$(TAGS)))))
+OPENDKIM_VER ?= $(word 1,$(subst -, ,$(VERSION)))
+
+
+
+
+###########
+# Aliases #
+###########
+
+dockerfile: codegen.dockerfile
+
+image: docker.image
+
+push: docker.push
+
+release: git.release
+
+tags: docker.tags
+
+test: test.docker
+
+
+
+
+###################
+# Docker commands #
+###################
+
+docker-namespaces = $(strip $(if $(call eq,$(namespaces),),\
+                            $(NAMESPACES),$(subst $(comma), ,$(namespaces))))
+docker-tags = $(strip $(if $(call eq,$(tags),),\
+                      $(TAGS),$(subst $(comma), ,$(tags))))
+
+
+# Build Docker image with the given tag.
 #
 # Usage:
-#	make image [DOCKERFILE=<dockerfile-dir>]
-#	           [VERSION=<image-version>]
-#	           [no-cache=(no|yes)]
+#	make docker.image [tag=($(VERSION)|<docker-tag>)]] [no-cache=(no|yes)]
 
-image:
+docker.image:
 	docker build --network=host --force-rm \
 		$(if $(call eq,$(no-cache),yes),--no-cache --pull,) \
-		-t $(IMAGE_NAME):$(VERSION) $(DOCKERFILE)
+		-t instrumentisto/$(NAME):$(if $(call eq,$(tag),),$(VERSION),$(tag)) \
+		$(DOCKERFILE)/
 
 
-
-# Tag Docker image with given tags.
+# Manually push Docker images to container registries.
 #
 # Usage:
-#	make tags [VERSION=<image-version>]
-#	          [TAGS=<docker-tag-1>[,<docker-tag-2>...]]
+#	make docker.push [tags=($(TAGS)|<docker-tag-1>[,<docker-tag-2>...])]
+#	                 [namespaces=($(NAMESPACES)|<prefix-1>[,<prefix-2>...])]
 
-tags:
-	$(foreach tag,$(subst $(comma), ,$(TAGS)),\
-		$(call tags.do,$(VERSION),$(tag)))
-define tags.do
+docker.push:
+	$(foreach tag,$(subst $(comma), ,$(docker-tags)),\
+		$(foreach namespace,$(subst $(comma), ,$(docker-namespaces)),\
+			$(call docker.push.do,$(namespace),$(tag))))
+define docker.push.do
+	$(eval repo := $(strip $(1)))
+	$(eval tag := $(strip $(2)))
+	docker push $(repo)/$(NAME):$(tag)
+endef
+
+
+# Tag Docker image with the given tags.
+#
+# Usage:
+#	make docker.tags [of=($(VERSION)|<docker-tag>)]
+#	                 [tags=($(TAGS)|<docker-tag-1>[,<docker-tag-2>...])]
+#	                 [namespaces=($(NAMESPACES)|<prefix-1>[,<prefix-2>...])]
+
+docker-tags-of = $(if $(call eq,$(of),),$(VERSION),$(of))
+
+docker.tags:
+	$(foreach tag,$(subst $(comma), ,$(docker-tags)),\
+		$(foreach namespace,$(subst $(comma), ,$(docker-namespaces)),\
+			$(call docker.tags.do,$(docker-tags-of),$(namespace),$(tag))))
+define docker.tags.do
 	$(eval from := $(strip $(1)))
-	$(eval to := $(strip $(2)))
-	docker tag $(IMAGE_NAME):$(from) $(IMAGE_NAME):$(to)
+	$(eval repo := $(strip $(2)))
+	$(eval to := $(strip $(3)))
+	docker tag instrumentisto/$(NAME):$(from) $(repo)/$(NAME):$(to)
 endef
 
 
-
-# Manually push Docker images to Docker Hub.
-#
-# Usage:
-#	make push [TAGS=<docker-tag-1>[,<docker-tag-2>...]]
-
-push:
-	$(foreach tag,$(subst $(comma), ,$(TAGS)),\
-		$(call push.do,$(tag)))
-define push.do
-	$(eval tag := $(strip $(1)))
-	docker push $(IMAGE_NAME):$(tag)
-endef
+docker.test: test.docker
 
 
 
-# Make manual release of Docker images to Docker Hub.
-#
-# Usage:
-#	make release [DOCKERFILE=<dockerfile-dir>] [no-cache=(no|yes)]
-#	             [VERSION=<image-version>]
-#	             [TAGS=<docker-tag-1>[,<docker-tag-2>...]]
 
-release: | image tags push
-
-
-
-# Make manual release of all supported Docker images to Docker Hub.
-#
-# Usage:
-#	make release-all [no-cache=(no|yes)]
-
-release-all:
-	$(foreach img,$(ALL_IMAGES),$(call release-all.do,$(img)))
-define release-all.do
-	$(eval img := $(strip $(1)))
-	@make release no-cache=$(no-cache) \
-			DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
-			VERSION=$(word 1,$(subst $(comma), ,\
-			                 $(word 2,$(subst :, ,$(img))))) \
-			TAGS=$(word 2,$(subst :, ,$(img)))
-endef
-
-
-
-# Generate Docker image sources.
-#
-# Usage:
-#	make src [DOCKERFILE=<dockerfile-dir>]
-#	         [TAGS=<docker-tag-1>[,<docker-tag-2>...]]
-
-src: dockerfile post-push-hook
-
-
-
-# Generate sources for all supported Docker images.
-#
-# Usage:
-#	make src-all
-
-src-all:
-	$(foreach img,$(ALL_IMAGES),$(call src-all.do,$(img)))
-define src-all.do
-	$(eval img := $(strip $(1)))
-	@make src DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
-	          TAGS=$(word 2,$(subst :, ,$(img)))
-endef
-
-
+####################
+# Codegen commands #
+####################
 
 # Generate Dockerfile from template.
 #
 # Usage:
-#	make dockerfile [DOCKERFILE=<dockerfile-dir>]
+#	make dockerfile [dir=(@all|<dockerfile-dir>)]
 
-dockerfile:
-	@mkdir -p $(DOCKERFILE)/
+codegen-dockerfile-dir = $(if $(call eq,$(dir),),@all,$(dir))
+
+codegen.dockerfile:
+ifeq ($(codegen-dockerfile-dir),@all)
+	$(foreach img,$(ALL_IMAGES),$(call codegen.dockerfile.do,\
+		$(word 1,$(subst :, ,$(img))),\
+		$(word 1,$(subst $(comma), ,$(word 2,$(subst :, ,$(img)))))))
+else
+	$(call codegen.dockerfile.do,\
+		$(codegen-dockerfile-dir),\
+		$(word 1,$(subst -, ,$(word 1,$(subst |, ,\
+			$(word 2,!$(subst $(codegen-dockerfile-dir):, ,$(subst $(space),|,\
+			                                               $(ALL_IMAGES)))))))))
+endif
+define codegen.dockerfile.do
+	$(eval dockerfile-dir := $(strip $(1)))
+	$(eval dockerfile-ver := $(strip $(2)))
+	@mkdir -p $(dockerfile-dir)/
 	docker run --rm -v "$(PWD)/Dockerfile.tmpl.php":/Dockerfile.php:ro \
 		php:alpine php -f /Dockerfile.php -- \
-			--dockerfile='$(DOCKERFILE)' \
-		> $(DOCKERFILE)/Dockerfile
-	@rm -rf $(DOCKERFILE)/rootfs
-	cp -rf rootfs $(DOCKERFILE)/
-	git add $(DOCKERFILE)/rootfs
-
-
-
-# Generate Dockerfile from template for all supported Docker images.
-#
-# Usage:
-#	make dockerfile-all
-
-dockerfile-all:
-	$(foreach img,$(ALL_IMAGES),$(call dockerfile-all.do,$(img)))
-define dockerfile-all.do
-	$(eval img := $(strip $(1)))
-	@make dockerfile DOCKERFILE=$(word 1,$(subst :, ,$(img)))
+			--dockerfile='$(dockerfile-dir)' \
+			--version='$(dockerfile-ver)' \
+		> $(dockerfile-dir)/Dockerfile
+	@rm -rf $(dockerfile-dir)/rootfs
+	cp -rf rootfs $(dockerfile-dir)/
+	git add $(dockerfile-dir)/rootfs
 endef
 
 
 
-# Create `post_push` Docker Hub hook.
-#
-# When Docker Hub triggers automated build all the tags defined in `post_push`
-# hook will be assigned to built image. It allows to link the same image with
-# different tags, and not to build identical image for each tag separately.
-# See details:
-# http://windsock.io/automated-docker-image-builds-with-multiple-tags
-#
-# Usage:
-#	make post-push-hook [DOCKERFILE=<dockerfile-dir>]
-#	                    [TAGS=<docker-tag-1>[,<docker-tag-2>...]]
 
-post-push-hook:
-	@mkdir -p $(DOCKERFILE)/hooks/
-	docker run --rm -v "$(PWD)/post_push.tmpl.php":/post_push.php:ro \
-		php:alpine php -f /post_push.php -- \
-			--image_tags='$(TAGS)' \
-		> $(DOCKERFILE)/hooks/post_push
+####################
+# Testing commands #
+####################
 
-
-
-# Create `post_push` Docker Hub hook for all supported Docker images.
-#
-# Usage:
-#	make post-push-hook-all
-
-post-push-hook-all:
-	$(foreach img,$(ALL_IMAGES),$(call post-push-hook-all.do,$(img)))
-define post-push-hook-all.do
-	$(eval img := $(strip $(1)))
-	@make post-push-hook DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
-	                     TAGS=$(word 2,$(subst :, ,$(img)))
-endef
-
-
-
-# Run tests for Docker image.
+# Run Bats tests for Docker image.
 #
 # Documentation of Bats:
 #	https://github.com/bats-core/bats-core
 #
 # Usage:
-#	make test [DOCKERFILE=<dockerfile-dir>] [VERSION=<image-version>]
+#	make test.docker [tag=($(VERSION)|<tag>)]
 
-test:
+test.docker:
 ifeq ($(wildcard node_modules/.bin/bats),)
-	@make deps.bats
+	@make npm.install
 endif
-	DOCKERFILE=$(DOCKERFILE) IMAGE=$(IMAGE_NAME):$(VERSION) \
-		node_modules/.bin/bats test/suite.bats
+	DOCKERFILE=$(DOCKERFILE) \
+	IMAGE=instrumentisto/$(NAME):$(if $(call eq,$(tag),),$(VERSION),$(tag)) \
+	node_modules/.bin/bats \
+		--timing $(if $(call eq,$(CI),),--pretty,--formatter tap) \
+		tests/main.bats
 
 
 
-# Run tests for all supported Docker images.
+
+################
+# NPM commands #
+################
+
+# Resolve project NPM dependencies.
 #
 # Usage:
-#	make test-all [prepare-images=(no|yes)]
+#	make npm.install [dockerized=(no|yes)]
 
-test-all:
-ifeq ($(prepare-images),yes)
-	$(foreach img,$(ALL_IMAGES),\
-		$(call test-all.do,image no-cache=$(no-cache),$(img)))
+npm.install:
+ifeq ($(dockerized),yes)
+	docker run --rm --network=host -v "$(PWD)":/app/ -w /app/ \
+		node \
+			make npm.install dockerized=no
+else
+	npm install
 endif
-	$(foreach img,$(ALL_IMAGES),\
-		$(call test-all.do,test,$(img)))
-define test-all.do
-	$(eval act := $(strip $(1)))
-	$(eval img := $(strip $(2)))
-	@make $(act) \
-		DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
-		VERSION=$(word 1,$(subst $(comma), ,\
-		                 $(word 2,$(subst :, ,$(img)))))
-endef
 
 
 
-# Resolve project dependencies for running tests with Yarn.
+
+################
+# Git commands #
+################
+
+# Release project version (apply version tag and push).
 #
 # Usage:
-#	make deps.bats
+#	make git.release [ver=($(VERSION)|<proj-ver>)]
 
-deps.bats:
-	docker run --rm -v "$(PWD)":/app -w /app \
-		node:alpine \
-			yarn install --non-interactive --no-progress
+git-release-tag = $(strip $(if $(call eq,$(ver),),$(VERSION),$(ver)))
+
+git.release:
+ifeq ($(shell git rev-parse $(git-release-tag) >/dev/null 2>&1 && echo "ok"),ok)
+	$(error "Git tag $(git-release-tag) already exists")
+endif
+	git tag $(git-release-tag) master
+	git push origin refs/tags/$(git-release-tag)
 
 
 
-.PHONY: image tags push \
-        release release-all \
-        src src-all \
-        dockerfile dockerfile-all \
-        post-push-hook post-push-hook-all \
-        test test-all deps.bats
+
+##################
+# .PHONY section #
+##################
+
+.PHONY: dockerfile image push release tags test \
+        codegen.dockerfile \
+        docker.image docker.push docker.tags docker.test \
+        git.release \
+        npm.install \
+        test.docker

@@ -4,6 +4,13 @@
 # https://hub.docker.com/_/debian
 FROM debian:jessie-slim
 
+ARG opendkim_ver=2.10.3
+ARG opendkim_sum=97923e533d072c07ae4d16a46cbed95ee799aa50f19468d8bc6d1dc534025a8616c3b4b68b5842bc899b509349a2c9a67312d574a726b048c0ea46dd4fcc45d8
+ARG s6_overlay_ver=2.0.0.1
+
+LABEL org.opencontainers.image.source="\
+    https://github.com/instrumentisto/opendkim-docker-image"
+
 
 # Build and install OpenDKIM
 RUN apt-get update \
@@ -37,8 +44,8 @@ RUN apt-get update \
     \
  # Download and prepare OpenDKIM sources
  && curl -fL -o /tmp/opendkim.tar.gz \
-         https://downloads.sourceforge.net/project/opendkim/opendkim-2.10.3.tar.gz \
- && (echo "97923e533d072c07ae4d16a46cbed95ee799aa50f19468d8bc6d1dc534025a8616c3b4b68b5842bc899b509349a2c9a67312d574a726b048c0ea46dd4fcc45d8  /tmp/opendkim.tar.gz" \
+         https://downloads.sourceforge.net/project/opendkim/opendkim-${opendkim_ver}.tar.gz \
+ && (echo "${opendkim_sum}  /tmp/opendkim.tar.gz" \
          | sha512sum -c -) \
  && tar -xzf /tmp/opendkim.tar.gz -C /tmp/ \
  && cd /tmp/opendkim-* \
@@ -87,7 +94,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             curl \
  && curl -fL -o /tmp/s6-overlay.tar.gz \
-         https://github.com/just-containers/s6-overlay/releases/download/v2.0.0.1/s6-overlay-amd64.tar.gz \
+         https://github.com/just-containers/s6-overlay/releases/download/v${s6_overlay_ver}/s6-overlay-amd64.tar.gz \
  && tar -xzf /tmp/s6-overlay.tar.gz -C / \
     \
  # Cleanup unnecessary stuff

@@ -1,17 +1,24 @@
-OpenDKIM Docker Image
+OpenDKIM Docker image
 =====================
 
-[![Build Status](https://travis-ci.org/instrumentisto/opendkim-docker-image.svg?branch=master)](https://travis-ci.org/instrumentisto/opendkim-docker-image)
-[![Docker Pulls](https://img.shields.io/docker/pulls/instrumentisto/opendkim.svg)](https://hub.docker.com/r/instrumentisto/opendkim)
-[![Uses](https://img.shields.io/badge/uses-s6--overlay-blue.svg)][21]
+[![Release](https://img.shields.io/github/v/release/instrumentisto/opendkim-docker-image "Release")](https://github.com/instrumentisto/opendkim-docker-image/releases)
+[![CI](https://github.com/instrumentisto/opendkim-docker-image/workflows/CI/badge.svg?branch=master "CI")](https://github.com/instrumentisto/opendkim-docker-image/actions?query=workflow%3ACI+branch%3Amaster)
+[![Docker Hub](https://img.shields.io/docker/pulls/instrumentisto/opendkim?label=Docker%20Hub%20pulls "Docker Hub pulls")](https://hub.docker.com/r/instrumentisto/opendkim)
+[![Uses](https://img.shields.io/badge/uses-s6--overlay-blue.svg "Uses s6-overlay")](https://github.com/just-containers/s6-overlay)
+
+[Docker Hub](https://hub.docker.com/r/instrumentisto/opendkim)
+| [GitHub Container Registry](https://github.com/orgs/instrumentisto/packages/container/package/opendkim)
+| [Quay.io](https://quay.io/repository/instrumentisto/opendkim)
+
+[Changelog](https://github.com/instrumentisto/opendkim-docker-image/blob/master/CHANGELOG.md)
 
 
 
 
 ## Supported tags and respective `Dockerfile` links
 
-- `2.10.3`, `2.10`, `2`, `latest` [(debian/Dockerfile)][101]
-- `2.10.3-alpine`, `2.10-alpine`, `2-alpine`, `alpine` [(alpine/Dockerfile)][102]
+- [`2.10.3-r0`, `2.10.3`, `2.10`, `2`, `latest`][101]
+- [`2.10.3-r0-alpine`, `2.10.3-alpine`, `2.10-alpine`, `2-alpine`, `alpine`][102]
 
 
 
@@ -89,33 +96,6 @@ docker run --rm -v /my/keys:/tmp -w /tmp --entrypoint opendkim-genkey \
 
 
 
-## Image versions
-
-
-### `X`
-
-Latest version of `X` OpenDKIM major version.
-
-
-### `X.Y`
-
-Latest version of `X.Y` OpenDKIM minor version.
-
-
-### `X.Y.Z`
-
-Concrete `X.Y.Z` version of OpenDKIM.
-
-
-### `alpine`
-
-This image is based on the popular [Alpine Linux project][1], available in [the alpine official image][2]. Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
-
-This variant is highly recommended when final image size being as small as possible is desired. The main caveat to note is that it does use [musl libc][4] instead of [glibc and friends][5], so certain software might run into issues depending on the depth of their libc requirements. However, most software doesn't have an issue with this, so this variant is usually a very safe choice. See [this Hacker News comment thread][6] for more discussion of the issues that might arise and some pro/con comparisons of using Alpine-based images.
-
-
-
-
 ## Important tips
 
 As far as OpenDKIM writes its logs only to `syslog`, the `syslogd` process runs inside container as second side-process and is supervised with [`s6` supervisor][20] provided by [`s6-overlay` project][21].
@@ -135,6 +115,40 @@ This image contains [`s6-overlay`][21] inside. So you may use all the [features 
 
 
 
+## Image versions
+
+
+### `X`
+
+Latest tag of `X` OpenDKIM's major version.
+
+
+### `X.Y`
+
+Latest tag of `X.Y` OpenDKIM's minor version.
+
+
+### `X.Y.Z`
+
+Latest tag of a concrete `X.Y.Z` version of OpenDKIM.
+
+
+### `X.Y.Z-rN`
+
+Concrete `N` image revision tag of a OpenDKIM's concrete `X.Y.Z` version.
+
+Once build, it's never updated.
+
+
+### `alpine`
+
+This image is based on the popular [Alpine Linux project][1], available in [the alpine official image][2]. Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
+
+This variant is highly recommended when final image size being as small as possible is desired. The main caveat to note is that it does use [musl libc][4] instead of [glibc and friends][5], so certain software might run into issues depending on the depth of their libc requirements. However, most software doesn't have an issue with this, so this variant is usually a very safe choice. See [this Hacker News comment thread][6] for more discussion of the issues that might arise and some pro/con comparisons of using Alpine-based images.
+
+
+
+
 ## License
 
 OpenDKIM is licensed under [BSD license][92].
@@ -150,13 +164,15 @@ The [sources][90] for producing `instrumentisto/opendkim` Docker images are lice
 
 ## Issues
 
-We can't notice comments in the DockerHub so don't use them for reporting issue or asking question.
+We can't notice comments in the [DockerHub] (or other container registries) so don't use them for reporting issue or asking question.
 
 If you have any problems with or questions about this image, please contact us through a [GitHub issue][3].
 
 
 
 
+
+[DockerHub]: https://hub.docker.com
 
 [1]: http://alpinelinux.org
 [2]: https://hub.docker.com/_/alpine
