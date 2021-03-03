@@ -22,8 +22,8 @@ NAMESPACES := instrumentisto \
               quay.io/instrumentisto
 NAME := opendkim
 ALL_IMAGES := \
-	debian:2.10.3-r0,2.10.3,2.10,2,latest \
-	alpine:2.10.3-r0-alpine,2.10.3-alpine,2.10-alpine,2-alpine,alpine
+	debian:2.10.3-r1,2.10.3,2.10,2,latest \
+	alpine:2.10.3-r1-alpine,2.10.3-alpine,2.10-alpine,2-alpine,alpine
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
 
 # Default is first image from ALL_IMAGES list.
