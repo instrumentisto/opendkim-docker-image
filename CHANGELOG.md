@@ -26,7 +26,7 @@ All user visible changes to this project will be documented in this file. This p
 
 ### Upgraded
 
-- [OpenDKIM] 2.10.3: <https://github.com/roundcube/roundcubemail/releases/tag/1.3.16>
+- [OpenDKIM] 2.10.3: <https://github.com/trusteddomainproject/OpenDKIM/blob/rel-opendkim-2-10-3/RELEASE_NOTES#L6>
 - [s6-overlay] 2.0.0.1: <https://github.com/just-containers/s6-overlay/releases/tag/v2.0.0.1>
 - [Alpine Linux] 3.12: <https://alpinelinux.org/posts/Alpine-3.12.0-released.html>
 - [Debian] "jessie": <https://www.debian.org/releases/jessie>
