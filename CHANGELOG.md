@@ -6,13 +6,14 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## [2.10.3-r1] · 2021-03-03
+## [2.10.3-r1] · 2021-03-12
 [2.10.3-r1]: /../../tree/2.10.3-r1
 
 [Diff](/../../compare/2.10.3-r0...2.10.3-r1)
 
 ### Upgraded
 
+- [s6-overlay] 2.2.0.3: <https://github.com/just-containers/s6-overlay/releases/tag/v2.2.0.3>
 - [Alpine Linux] 3.13: <https://alpinelinux.org/posts/Alpine-3.13.0-released.html>
 
 
