@@ -17,8 +17,8 @@ OpenDKIM Docker image
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`2.10.3-r4`, `2.10.3`, `2.10`, `2`, `latest`][101]
-- [`2.10.3-r4-alpine`, `2.10.3-alpine`, `2.10-alpine`, `2-alpine`, `alpine`][102]
+- [`2.10.3-r5`, `2.10.3`, `2.10`, `2`, `latest`][101]
+- [`2.10.3-r5-alpine`, `2.10.3-alpine`, `2.10-alpine`, `2-alpine`, `alpine`][102]
 
 
 
