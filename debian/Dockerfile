@@ -18,7 +18,10 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             inetutils-syslogd \
             ca-certificates \
- && update-ca-certificates \
+ # Temporary fix for CA certs until OpenDKIM builds on later Debian versions:
+ # https://serverfault.com/a/1079226
+ && sed -i '/^mozilla\/DST_Root_CA_X3/s/^/!/' /etc/ca-certificates.conf \
+ && update-ca-certificates -f \
     \
  # Install OpenDKIM dependencies
  && apt-get install -y --no-install-recommends --no-install-suggests \

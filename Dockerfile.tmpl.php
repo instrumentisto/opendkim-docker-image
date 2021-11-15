@@ -29,14 +29,18 @@ RUN apk update \
  && apk upgrade \
  && apk add --no-cache \
         ca-certificates \
+ && update-ca-certificates \
 <? } else { ?>
 RUN apt-get update \
  && apt-get upgrade -y \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             inetutils-syslogd \
             ca-certificates \
+ # Temporary fix for CA certs until OpenDKIM builds on later Debian versions:
+ # https://serverfault.com/a/1079226
+ && sed -i '/^mozilla\/DST_Root_CA_X3/s/^/!/' /etc/ca-certificates.conf \
+ && update-ca-certificates -f \
 <? } ?>
- && update-ca-certificates \
     \
  # Install OpenDKIM dependencies
 <? if ($isAlpineImage) { ?>
