@@ -1,10 +1,17 @@
 name: CI
 
 on:
-  pull_request:
   push:
+    branches: ["master"]
+    tags: ["*"]
+  pull_request:
+    branches: ["master"]
   schedule:
-    - cron: '0 13 * * 5'
+    - cron: "0 13 * * 5"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   docker:
@@ -72,7 +79,7 @@ jobs:
         if: ${{ matrix.publish }}
 
   release:
-    needs: ['docker']
+    needs: ["docker"]
     if: ${{ github.event_name == 'push'
             && startsWith(github.ref, 'refs/tags/2.') }}
     runs-on: ubuntu-latest
