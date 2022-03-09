@@ -36,7 +36,7 @@
 
 @test "drop-in: opendkim listens on 8890 port" {
   run docker rm -f test-opendkim
-  run docker run -d --name test-opendkim -p 8890:8890 \
+  run docker run --rm -d --name test-opendkim -p 8890:8890 \
                  -v $(pwd)/tests/resources/conf.d:/etc/opendkim/conf.d:ro \
       $IMAGE
   [ "$status" -eq 0 ]

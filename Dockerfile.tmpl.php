@@ -16,7 +16,7 @@ FROM debian:jessie-slim
 
 ARG opendkim_ver=<?= explode('-', $var['version'])[0]."\n"; ?>
 ARG opendkim_sum=<?= "97923e533d072c07ae4d16a46cbed95ee799aa50f19468d8bc6d1dc534025a8616c3b4b68b5842bc899b509349a2c9a67312d574a726b048c0ea46dd4fcc45d8\n"; ?>
-ARG s6_overlay_ver=2.2.0.3
+ARG s6_overlay_ver=3.1.0.1
 
 LABEL org.opencontainers.image.source="\
     https://github.com/instrumentisto/opendkim-docker-image"
@@ -154,11 +154,14 @@ RUN apk add --update --no-cache --virtual .tool-deps \
 <? } else { ?>
 RUN apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
-            curl \
+            curl xz-utils \
 <? } ?>
- && curl -fL -o /tmp/s6-overlay.tar.gz \
-         https://github.com/just-containers/s6-overlay/releases/download/v${s6_overlay_ver}/s6-overlay-amd64.tar.gz \
- && tar -xzf /tmp/s6-overlay.tar.gz -C / \
+ && curl -fL -o /tmp/s6-overlay-noarch.tar.xz \
+         https://github.com/just-containers/s6-overlay/releases/download/v${s6_overlay_ver}/s6-overlay-noarch.tar.xz \
+ && curl -fL -o /tmp/s6-overlay-bin.tar.xz \
+         https://github.com/just-containers/s6-overlay/releases/download/v${s6_overlay_ver}/s6-overlay-x86_64.tar.xz \
+ && tar -xf /tmp/s6-overlay-noarch.tar.xz -C / \
+ && tar -xf /tmp/s6-overlay-bin.tar.xz -C / \
     \
  # Cleanup unnecessary stuff
 <? if ($isAlpineImage) { ?>
@@ -167,19 +170,20 @@ RUN apt-get update \
 <? } else { ?>
  && apt-get purge -y --auto-remove \
                   -o APT::AutoRemove::RecommendsImportant=false \
-            curl \
+            curl xz-utils \
  && rm -rf /var/lib/apt/lists/* \
 <? } ?>
            /tmp/*
 
-ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+ENV S6_KEEP_ENV=1 \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     S6_CMD_WAIT_FOR_SERVICES=1
 
 
 COPY rootfs /
 
-RUN chmod +x /etc/services.d/*/run \
-             /etc/cont-init.d/*
+RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run \
+             /etc/s6-overlay/s6-rc.d/*/*.sh
 
 
 EXPOSE 8891
