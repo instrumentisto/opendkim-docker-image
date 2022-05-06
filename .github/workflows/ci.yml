@@ -34,7 +34,7 @@ jobs:
           git update-index --refresh
           ! git diff-index HEAD -- | grep '${{ matrix.dockerfile }}'
 
-      - uses: docker/setup-buildx-action@v1
+      - uses: docker/setup-buildx-action@v2
 
       - uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
