@@ -6,6 +6,18 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [2.10.3-r15] · 2022-05-24
+[2.10.3-r15]: /../../tree/2.10.3-r15
+
+[Diff](/../../compare/2.10.3-r14...2.10.3-r15)
+
+### Upgraded
+
+- [Alpine Linux] 3.16: <https://alpinelinux.org/posts/Alpine-3.16.0-released.html>
+
+
+
+
 ## [2.10.3-r14] · 2022-04-06
 [2.10.3-r14]: /../../tree/2.10.3-r14
 

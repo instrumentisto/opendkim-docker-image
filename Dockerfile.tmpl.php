@@ -8,7 +8,7 @@ $AlpineRepoCommit = '3b749b4a926cd6db8c9f9f65b71d2f94e3fb08e5';
 
 <? if ($isAlpineImage) { ?>
 # https://hub.docker.com/_/alpine
-FROM alpine:3.15
+FROM alpine:3.16
 <? } else { ?>
 # https://hub.docker.com/_/debian
 FROM debian:jessie-slim
@@ -45,7 +45,7 @@ RUN apt-get update \
  # Install OpenDKIM dependencies
 <? if ($isAlpineImage) { ?>
  && apk add --no-cache --force \
-        libressl3.4-libcrypto libressl3.4-libssl \
+        libressl3.5-libcrypto libressl3.5-libssl \
         libmilter \
         # Perl and LibreSSL required for opendkim-* utilities
         libressl perl \
