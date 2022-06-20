@@ -22,8 +22,8 @@ NAMESPACES := instrumentisto \
               quay.io/instrumentisto
 NAME := opendkim
 ALL_IMAGES := \
-	debian:2.10.3-r15,2.10.3,2.10,2,latest \
-	alpine:2.10.3-r15-alpine,2.10.3-alpine,2.10-alpine,2-alpine,alpine
+	debian:2.10.3-r16,2.10.3,2.10,2,latest \
+	alpine:2.10.3-r16-alpine,2.10.3-alpine,2.10-alpine,2-alpine,alpine
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
 
 # Default is first image from ALL_IMAGES list.
@@ -83,7 +83,7 @@ docker.image:
 			$(shell git show --pretty=format:%H --no-patch)) \
 		--label org.opencontainers.image.version=$(strip \
 			$(shell git describe --tags --dirty)) \
-		-t instrumentisto/$(NAME):$(if $(call eq,$(tag),),$(VERSION),$(tag)) \
+		-t instrumentisto/$(NAME):$(or $(tag),$(VERSION)) \
 		$(DOCKERFILE)/
 
 
@@ -111,12 +111,10 @@ endef
 #	                 [tags=($(TAGS)|<docker-tag-1>[,<docker-tag-2>...])]
 #	                 [namespaces=($(NAMESPACES)|<prefix-1>[,<prefix-2>...])]
 
-docker-tags-of = $(if $(call eq,$(of),),$(VERSION),$(of))
-
 docker.tags:
 	$(foreach tag,$(subst $(comma), ,$(docker-tags)),\
 		$(foreach namespace,$(subst $(comma), ,$(docker-namespaces)),\
-			$(call docker.tags.do,$(docker-tags-of),$(namespace),$(tag))))
+			$(call docker.tags.do,$(or $(of),$(VERSION)),$(namespace),$(tag))))
 define docker.tags.do
 	$(eval from := $(strip $(1)))
 	$(eval repo := $(strip $(2)))
@@ -139,7 +137,7 @@ docker.test: test.docker
 # Usage:
 #	make dockerfile [dir=(@all|<dockerfile-dir>)]
 
-codegen-dockerfile-dir = $(if $(call eq,$(dir),),@all,$(dir))
+codegen-dockerfile-dir = $(or $(dir),@all)
 
 codegen.dockerfile:
 ifeq ($(codegen-dockerfile-dir),@all)
@@ -187,7 +185,7 @@ ifeq ($(wildcard node_modules/.bin/bats),)
 	@make npm.install
 endif
 	DOCKERFILE=$(DOCKERFILE) \
-	IMAGE=instrumentisto/$(NAME):$(if $(call eq,$(tag),),$(VERSION),$(tag)) \
+	IMAGE=instrumentisto/$(NAME):$(or $(tag),$(VERSION)) \
 	node_modules/.bin/bats \
 		--timing $(if $(call eq,$(CI),),--pretty,--formatter tap) \
 		tests/main.bats
@@ -225,7 +223,7 @@ endif
 # Usage:
 #	make git.release [ver=($(VERSION)|<proj-ver>)]
 
-git-release-tag = $(strip $(if $(call eq,$(ver),),$(VERSION),$(ver)))
+git-release-tag = $(strip $(or $(ver),$(VERSION)))
 
 git.release:
 ifeq ($(shell git rev-parse $(git-release-tag) >/dev/null 2>&1 && echo "ok"),ok)
