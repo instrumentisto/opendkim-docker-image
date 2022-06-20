@@ -71,9 +71,18 @@ docker-tags = $(strip $(if $(call eq,$(tags),),\
 # Usage:
 #	make docker.image [tag=($(VERSION)|<docker-tag>)]] [no-cache=(no|yes)]
 
+github_url := $(strip $(or $(GITHUB_SERVER_URL),https://github.com))
+github_repo := $(strip $(or $(GITHUB_REPOSITORY),\
+                            instrumentisto/opendkim-docker-image))
+
 docker.image:
 	docker build --network=host --force-rm \
 		$(if $(call eq,$(no-cache),yes),--no-cache --pull,) \
+		--label org.opencontainers.image.source=$(github_url)/$(github_repo) \
+		--label org.opencontainers.image.revision=$(strip \
+			$(shell git show --pretty=format:%H --no-patch)) \
+		--label org.opencontainers.image.version=$(strip \
+			$(shell git describe --tags --dirty)) \
 		-t instrumentisto/$(NAME):$(if $(call eq,$(tag),),$(VERSION),$(tag)) \
 		$(DOCKERFILE)/
 

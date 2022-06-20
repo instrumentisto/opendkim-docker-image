@@ -18,9 +18,6 @@ ARG opendkim_ver=<?= explode('-', $var['version'])[0]."\n"; ?>
 ARG opendkim_sum=<?= "97923e533d072c07ae4d16a46cbed95ee799aa50f19468d8bc6d1dc534025a8616c3b4b68b5842bc899b509349a2c9a67312d574a726b048c0ea46dd4fcc45d8\n"; ?>
 ARG s6_overlay_ver=3.1.0.1
 
-LABEL org.opencontainers.image.source="\
-    https://github.com/instrumentisto/opendkim-docker-image"
-
 
 # Build and install OpenDKIM
 <? if ($isAlpineImage) { ?>
