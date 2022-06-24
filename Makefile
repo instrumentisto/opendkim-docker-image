@@ -17,10 +17,11 @@ eq = $(if $(or $(1),$(2)),$(and $(findstring $(1),$(2)),\
 # Project parameters #
 ######################
 
-NAMESPACES := instrumentisto \
-              ghcr.io/instrumentisto \
-              quay.io/instrumentisto
 NAME := opendkim
+OWNER := $(or $(GITHUB_REPOSITORY_OWNER),instrumentisto)
+NAMESPACES := $(OWNER) \
+              ghcr.io/$(OWNER) \
+              quay.io/$(OWNER)
 ALL_IMAGES := \
 	debian:2.10.3-r16,2.10.3,2.10,2,latest \
 	alpine:2.10.3-r16-alpine,2.10.3-alpine,2.10-alpine,2-alpine,alpine
@@ -72,8 +73,7 @@ docker-tags = $(strip $(if $(call eq,$(tags),),\
 #	make docker.image [tag=($(VERSION)|<docker-tag>)]] [no-cache=(no|yes)]
 
 github_url := $(strip $(or $(GITHUB_SERVER_URL),https://github.com))
-github_repo := $(strip $(or $(GITHUB_REPOSITORY),\
-                            instrumentisto/opendkim-docker-image))
+github_repo := $(strip $(or $(GITHUB_REPOSITORY),$(OWNER)/$(NAME)-docker-image))
 
 docker.image:
 	docker build --network=host --force-rm \
@@ -83,8 +83,7 @@ docker.image:
 			$(shell git show --pretty=format:%H --no-patch)) \
 		--label org.opencontainers.image.version=$(strip \
 			$(shell git describe --tags --dirty)) \
-		-t instrumentisto/$(NAME):$(or $(tag),$(VERSION)) \
-		$(DOCKERFILE)/
+		-t $(OWNER)/$(NAME):$(or $(tag),$(VERSION)) $(DOCKERFILE)/
 
 
 # Manually push Docker images to container registries.
@@ -119,7 +118,7 @@ define docker.tags.do
 	$(eval from := $(strip $(1)))
 	$(eval repo := $(strip $(2)))
 	$(eval to := $(strip $(3)))
-	docker tag instrumentisto/$(NAME):$(from) $(repo)/$(NAME):$(to)
+	docker tag $(OWNER)/$(NAME):$(from) $(repo)/$(NAME):$(to)
 endef
 
 
@@ -185,7 +184,7 @@ ifeq ($(wildcard node_modules/.bin/bats),)
 	@make npm.install
 endif
 	DOCKERFILE=$(DOCKERFILE) \
-	IMAGE=instrumentisto/$(NAME):$(or $(tag),$(VERSION)) \
+	IMAGE=$(OWNER)/$(NAME):$(or $(tag),$(VERSION)) \
 	node_modules/.bin/bats \
 		--timing $(if $(call eq,$(CI),),--pretty,--formatter tap) \
 		tests/main.bats
