@@ -2,7 +2,7 @@ OpenDKIM Docker image
 =====================
 
 [![Release](https://img.shields.io/github/v/release/instrumentisto/opendkim-docker-image "Release")](https://github.com/instrumentisto/opendkim-docker-image/releases)
-[![CI](https://github.com/instrumentisto/opendkim-docker-image/workflows/CI/badge.svg?branch=master "CI")](https://github.com/instrumentisto/opendkim-docker-image/actions?query=workflow%3ACI+branch%3Amaster)
+[![CI](https://github.com/instrumentisto/opendkim-docker-image/workflows/CI/badge.svg?branch=main "CI")](https://github.com/instrumentisto/opendkim-docker-image/actions?query=workflow%3ACI+branch%3Amain)
 [![Docker Hub](https://img.shields.io/docker/pulls/instrumentisto/opendkim?label=Docker%20Hub%20pulls "Docker Hub pulls")](https://hub.docker.com/r/instrumentisto/opendkim)
 [![Uses](https://img.shields.io/badge/uses-s6--overlay-blue.svg "Uses s6-overlay")](https://github.com/just-containers/s6-overlay)
 
@@ -10,7 +10,7 @@ OpenDKIM Docker image
 | [GitHub Container Registry](https://github.com/orgs/instrumentisto/packages/container/package/opendkim)
 | [Quay.io](https://quay.io/repository/instrumentisto/opendkim)
 
-[Changelog](https://github.com/instrumentisto/opendkim-docker-image/blob/master/CHANGELOG.md)
+[Changelog](https://github.com/instrumentisto/opendkim-docker-image/blob/main/CHANGELOG.md)
 
 
 
@@ -33,7 +33,7 @@ OpenDKIM is a unit of [The Trusted Domain Project][16].
 
 > [www.opendkim.org](http://www.opendkim.org)
 
-![OpenDKIM Logo](https://raw.githubusercontent.com/instrumentisto/opendkim-docker-image/master/logo.png)
+![OpenDKIM Logo](https://raw.githubusercontent.com/instrumentisto/opendkim-docker-image/main/logo.png)
 
 
 
@@ -189,7 +189,7 @@ If you have any problems with or questions about this image, please contact us t
 [21]: https://github.com/just-containers/s6-overlay
 [22]: https://github.com/just-containers/s6-overlay#usage
 [90]: https://github.com/instrumentisto/opendkim-docker-image
-[91]: https://github.com/instrumentisto/opendkim-docker-image/blob/master/LICENSE.md
+[91]: https://github.com/instrumentisto/opendkim-docker-image/blob/main/LICENSE.md
 [92]: http://www.opendkim.org/license.html
-[101]: https://github.com/instrumentisto/opendkim-docker-image/blob/master/debian/Dockerfile
-[102]: https://github.com/instrumentisto/opendkim-docker-image/blob/master/alpine/Dockerfile
+[101]: https://github.com/instrumentisto/opendkim-docker-image/blob/main/debian/Dockerfile
+[102]: https://github.com/instrumentisto/opendkim-docker-image/blob/main/alpine/Dockerfile
