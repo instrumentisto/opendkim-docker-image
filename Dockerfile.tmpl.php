@@ -159,6 +159,11 @@ RUN apt-get update \
          https://github.com/just-containers/s6-overlay/releases/download/v${s6_overlay_ver}/s6-overlay-x86_64.tar.xz \
  && tar -xf /tmp/s6-overlay-noarch.tar.xz -C / \
  && tar -xf /tmp/s6-overlay-bin.tar.xz -C / \
+<? if (!$isAlpineImage) { ?>
+    \
+ # Fix syslogd path
+ && ln -s /usr/sbin/syslogd /sbin/syslogd \
+<? } ?>
     \
  # Cleanup unnecessary stuff
 <? if ($isAlpineImage) { ?>

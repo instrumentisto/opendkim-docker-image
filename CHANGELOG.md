@@ -6,6 +6,20 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [2.10.3-r23] · 2022-10-04
+[2.10.3-r23]: /../../tree/2.10.3-r23
+
+[Diff](/../../compare/2.10.3-r22...2.10.3-r23)
+
+### Fixed
+
+- `syslogd` not running in [Debian]. ([#6])
+
+[#6]: /../../issues/6
+
+
+
+
 ## [2.10.3-r22] · 2022-08-30
 [2.10.3-r22]: /../../tree/2.10.3-r22
 

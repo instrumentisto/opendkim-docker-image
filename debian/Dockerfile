@@ -100,6 +100,9 @@ RUN apt-get update \
  && tar -xf /tmp/s6-overlay-noarch.tar.xz -C / \
  && tar -xf /tmp/s6-overlay-bin.tar.xz -C / \
     \
+ # Fix syslogd path
+ && ln -s /usr/sbin/syslogd /sbin/syslogd \
+    \
  # Cleanup unnecessary stuff
  && apt-get purge -y --auto-remove \
                   -o APT::AutoRemove::RecommendsImportant=false \
