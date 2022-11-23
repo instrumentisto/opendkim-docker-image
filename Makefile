@@ -70,7 +70,8 @@ docker-tags = $(strip $(if $(call eq,$(tags),),\
 # Build Docker image with the given tag.
 #
 # Usage:
-#	make docker.image [tag=($(VERSION)|<docker-tag>)]] [no-cache=(no|yes)]
+#	make docker.image [dockerfile=(debian|alpine)]
+#	                  [tag=($(VERSION)|<docker-tag>)]] [no-cache=(no|yes)]
 
 github_url := $(strip $(or $(GITHUB_SERVER_URL),https://github.com))
 github_repo := $(strip $(or $(GITHUB_REPOSITORY),$(OWNER)/$(NAME)-docker-image))
@@ -83,7 +84,8 @@ docker.image:
 			$(shell git show --pretty=format:%H --no-patch)) \
 		--label org.opencontainers.image.version=$(strip \
 			$(shell git describe --tags --dirty)) \
-		-t $(OWNER)/$(NAME):$(or $(tag),$(VERSION)) $(DOCKERFILE)/
+		-t $(OWNER)/$(NAME):$(or $(tag),$(VERSION)) \
+		$(or $(dockerfile),$(DOCKERFILE))/
 
 
 # Manually push Docker images to container registries.

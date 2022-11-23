@@ -39,7 +39,7 @@ jobs:
           ! git diff-index HEAD -- | grep '${{ matrix.dist }}'
 
       - run: make docker.image no-cache=yes
-                  DOCKERFILE=${{ matrix.dist }}
+                  dockerfile=${{ matrix.dist }}
                   tag=build-${{ github.run_number }}
 
       - run: make docker.tar to-file=.cache/image.tar
@@ -75,8 +75,9 @@ jobs:
       - run: make docker.untar from-file=.cache/image.tar
 
       - run: make test.docker
-                  DOCKERFILE=${{ matrix.dist }}
                   tag=build-${{ github.run_number }}
+        env:
+          DOCKERFILE: ${{ matrix.dist }}
 
 
 
@@ -85,11 +86,10 @@ jobs:
   # Releasing #
   #############
 
-  release-docker:
-    name: Release Docker image
-    needs: ["build", "test"]
+  push:
     if: ${{ github.event_name == 'push'
          && startsWith(github.ref, 'refs/tags/') }}
+    needs: ["build", "test"]
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -100,13 +100,13 @@ jobs:
     steps:
       # Skip if this is fork and no credentials are provided.
       - id: skip
-        run: echo ::set-output name=no::${{ !(
+        run: echo "no=${{ !(
                github.repository_owner != 'instrumentisto'
                && ((matrix.registry == 'quay.io'
                     && secrets.QUAYIO_ROBOT_USER == '')
                 || (matrix.registry == 'docker.io'
                     && secrets.DOCKERHUB_BOT_USER == ''))
-             ) }}
+             ) }}" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v3
         if: ${{ steps.skip.outputs.no == 'true' }}
@@ -143,12 +143,14 @@ jobs:
         if: ${{ steps.skip.outputs.no == 'true' }}
 
       - run: make docker.tags of=build-${{ github.run_number }}
-                  DOCKERFILE=${{ matrix.dist }}
                   registries=${{ matrix.registry }}
+        env:
+          DOCKERFILE: ${{ matrix.dist }}  # for correct `tags` auto-detection
         if: ${{ steps.skip.outputs.no == 'true' }}
       - run: make docker.push
-                  DOCKERFILE=${{ matrix.dist }}
                   registries=${{ matrix.registry }}
+        env:
+          DOCKERFILE: ${{ matrix.dist }}  # for correct `tags` auto-detection
         if: ${{ steps.skip.outputs.no == 'true' }}
 
       # On GitHub Container Registry README is automatically updated on pushes.
@@ -175,10 +177,10 @@ jobs:
              && matrix.registry == 'quay.io' }}
 
   release-github:
-    name: Release on GitHub
-    needs: ["release-docker"]
+    name: release (GitHub)
     if: ${{ github.event_name == 'push'
          && startsWith(github.ref, 'refs/tags/') }}
+    needs: ["push"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -191,12 +193,12 @@ jobs:
           regex: '^refs/tags/((([0-9]+)\.[0-9]+)\.[0-9]+-(.+))$'
       - name: Parse CHANGELOG link
         id: changelog
-        run: echo ::set-output
-                  name=LINK::${{ github.server_url }}/${{ github.repository }}/blob/${{ steps.semver.outputs.group1 }}/CHANGELOG.md#$(sed -n '/^## \[${{ steps.semver.outputs.group1 }}\]/{s/^## \[\(.*\)\][^0-9]*\([0-9].*\)/\1--\2/;s/[^0-9a-z-]*//g;p;}' CHANGELOG.md)
+        run: echo "link=${{ github.server_url }}/${{ github.repository }}/blob/${{ steps.semver.outputs.group1 }}/CHANGELOG.md#$(sed -n '/^## \[${{ steps.semver.outputs.group1 }}\]/{s/^## \[\(.*\)\][^0-9]*\([0-9].*\)/\1--\2/;s/[^0-9a-z-]*//g;p;}' CHANGELOG.md)"
+             >> $GITHUB_OUTPUT
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ steps.semver.outputs.group1 }}
           body: |
-            [Changelog](${{ steps.changelog.outputs.LINK }})
+            [Changelog](${{ steps.changelog.outputs.link }})
