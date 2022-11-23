@@ -118,33 +118,33 @@ This image contains [`s6-overlay`][21] inside. So you may use all the [features 
 ## Image versions
 
 
-### `X`
+### `<X>`
 
-Latest tag of `X` OpenDKIM's major version.
-
-
-### `X.Y`
-
-Latest tag of `X.Y` OpenDKIM's minor version.
+Latest tag of the latest major `X` OpenDKIM version.
 
 
-### `X.Y.Z`
+### `<X.Y>`
 
-Latest tag of a concrete `X.Y.Z` version of OpenDKIM.
+Latest tag of the latest minor `X.Y` OpenDKIM version.
 
 
-### `X.Y.Z-rN`
+### `<X.Y.Z>`
 
-Concrete `N` image revision tag of a OpenDKIM's concrete `X.Y.Z` version.
+Latest tag of the concrete `X.Y.Z` OpenDKIM version.
 
-Once build, it's never updated.
+
+### `<X.Y.Z>-r<N>`
+
+Concrete `N` image revision tag of the concrete `X.Y.Z` OpenDKIM version.
+
+Once built, it's never updated.
 
 
 ### `alpine`
 
-This image is based on the popular [Alpine Linux project][1], available in [the alpine official image][2]. Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
+This image is based on the popular [Alpine Linux project][1], available in [the alpine official image][2]. [Alpine Linux][1] is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
 
-This variant is highly recommended when final image size being as small as possible is desired. The main caveat to note is that it does use [musl libc][4] instead of [glibc and friends][5], so certain software might run into issues depending on the depth of their libc requirements. However, most software doesn't have an issue with this, so this variant is usually a very safe choice. See [this Hacker News comment thread][6] for more discussion of the issues that might arise and some pro/con comparisons of using Alpine-based images.
+This variant is highly recommended when final image size being as small as possible is desired. The main caveat to note is that it does use [musl libc][4] instead of [glibc and friends][5], so certain software might run into issues depending on the depth of their libc requirements. However, most software doesn't have an issue with this, so this variant is usually a very safe choice. See [this Hacker News comment thread][6] for more discussion of the issues that might arise and some pro/con comparisons of using [Alpine][1]-based images.
 
 
 
@@ -167,7 +167,6 @@ The [sources][90] for producing `instrumentisto/opendkim` Docker images are lice
 We can't notice comments in the [DockerHub] (or other container registries) so don't use them for reporting issue or asking question.
 
 If you have any problems with or questions about this image, please contact us through a [GitHub issue][3].
-
 
 
 

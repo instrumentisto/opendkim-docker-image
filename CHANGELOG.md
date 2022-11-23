@@ -300,7 +300,6 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-
 [Alpine Linux]: https://www.alpinelinux.org
 [Debian]: https://www.debian.org
 [OpenDKIM]: http://www.opendkim.org
