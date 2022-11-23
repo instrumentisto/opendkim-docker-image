@@ -31,6 +31,7 @@ RUN apk update \
 RUN apt-get update \
  && apt-get upgrade -y \
  && apt-get install -y --no-install-recommends --no-install-suggests \
+                    --force-yes \
             inetutils-syslogd \
             ca-certificates \
  # Temporary fix for CA certs until OpenDKIM builds on later Debian versions:
@@ -51,6 +52,7 @@ RUN apt-get update \
  && ln -sf /usr/bin/libressl /usr/bin/openssl \
 <? } else { ?>
  && apt-get install -y --no-install-recommends --no-install-suggests \
+                    --force-yes \
             libssl1.0.0 \
             libmilter1.0.1 \
             libbsd0 \
@@ -65,6 +67,7 @@ RUN apt-get update \
         curl make gcc g++ libc-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
+                    --force-yes \
             $toolDeps \
 <? } ?>
     \
@@ -80,6 +83,7 @@ RUN apt-get update \
         libbsd-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
+                    --force-yes \
             $buildDeps \
 <? } ?>
     \
@@ -151,6 +155,7 @@ RUN apk add --update --no-cache --virtual .tool-deps \
 <? } else { ?>
 RUN apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
+                    --force-yes \
             curl xz-utils \
 <? } ?>
  && curl -fL -o /tmp/s6-overlay-noarch.tar.xz \
