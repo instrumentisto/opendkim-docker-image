@@ -23,8 +23,8 @@ REGISTRIES := $(strip $(subst $(comma), ,\
 	$(shell grep -m1 'registry: \["' .github/workflows/ci.yml \
 	        | cut -d':' -f2 | tr -d '"][')))
 ALL_IMAGES := \
-	debian:2.10.3-r27,2.10.3,2.10,2,latest \
-	alpine:2.10.3-r27-alpine,2.10.3-alpine,2.10-alpine,2-alpine,alpine
+	debian:2.10.3-r28,2.10.3,2.10,2,latest \
+	alpine:2.10.3-r28-alpine,2.10.3-alpine,2.10-alpine,2-alpine,alpine
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
 
 # Default is first image from ALL_IMAGES list.
