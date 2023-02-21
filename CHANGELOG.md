@@ -6,6 +6,18 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [2.10.3-r29] · 2023-02-21
+[2.10.3-r29]: /../../tree/2.10.3-r29
+
+[Diff](/../../compare/2.10.3-r28...2.10.3-r29)
+
+### Upgraded
+
+- [s6-overlay] 3.1.4.1: <https://github.com/just-containers/s6-overlay/releases/tag/v3.1.4.1>
+
+
+
+
 ## [2.10.3-r28] · 2023-02-20
 [2.10.3-r28]: /../../tree/2.10.3-r28
 
