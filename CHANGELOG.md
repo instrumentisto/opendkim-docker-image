@@ -6,10 +6,15 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## [2.10.3-r30] · 2023-03-31
-[2.10.3-r30]: /../../tree/2.10.3-r30
+## [2.11.0-Beta2-r0] · 2023-03-31
+[2.11.0-Beta2-r0]: /../../tree/2.11.0-Beta2-r0
 
-[Diff](/../../compare/2.10.3-r29...2.10.3-r30)
+[Diff](/../../compare/2.10.3-r29...2.11.0-Beta2-r0)
+
+### Upgraded
+
+- [OpenDKIM] 2.11.0-Beta2: <https://github.com/trusteddomainproject/OpenDKIM/blob/2.11.0-Beta2/RELEASE_NOTES#L6>
+- [Debian Linux] "bullseye" 20230320: <https://www.debian.org/releases/bullseye>, <https://github.com/docker-library/official-images/commit/066bc3b863f98325ff211a27301fe1b5a5d51721>
 
 ### Security updated
 
@@ -97,7 +102,7 @@ All user visible changes to this project will be documented in this file. This p
 
 ### Fixed
 
-- `syslogd` not running in [Debian]. ([#6])
+- `syslogd` not running in [Debian Linux]. ([#6])
 
 [#6]: /../../issues/6
 
@@ -379,13 +384,13 @@ All user visible changes to this project will be documented in this file. This p
 - [OpenDKIM] 2.10.3: <https://github.com/trusteddomainproject/OpenDKIM/blob/rel-opendkim-2-10-3/RELEASE_NOTES#L6>
 - [s6-overlay] 2.0.0.1: <https://github.com/just-containers/s6-overlay/releases/tag/v2.0.0.1>
 - [Alpine Linux] 3.12: <https://alpinelinux.org/posts/Alpine-3.12.0-released.html>
-- [Debian] "jessie": <https://www.debian.org/releases/jessie>
+- [Debian Linux] "jessie": <https://www.debian.org/releases/jessie>
 
 
 
 
 [Alpine Linux]: https://www.alpinelinux.org
-[Debian]: https://www.debian.org
+[Debian Linux]: https://www.debian.org
 [OpenDKIM]: http://www.opendkim.org
 [s6-overlay]: https://github.com/just-containers/s6-overlay
 [Semantic Versioning 2.0.0]: https://semver.org

@@ -17,8 +17,8 @@ OpenDKIM Docker image
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`2.10.3-r30`, `2.10.3`, `2.10`, `2`, `latest`][101]
-- [`2.10.3-r30-alpine`, `2.10.3-alpine`, `2.10-alpine`, `2-alpine`, `alpine`][102]
+- [`2.11.0-Beta2-r0`, `2.11.0-Beta2`, `2.11`, `2`, `latest`][101]
+- [`2.11.0-Beta2-r0-alpine`, `2.11.0-Beta2-alpine`, `2.11-alpine`, `2-alpine`, `alpine`][102]
 
 
 
@@ -31,7 +31,8 @@ The OpenDKIM Docker image consists of a library that implements the DKIM service
 
 OpenDKIM is a unit of [The Trusted Domain Project][16].
 
-> [www.opendkim.org](http://www.opendkim.org)
+> [www.opendkim.org](http://www.opendkim.org)  
+> [github.com/trusteddomainproject/OpenDKIM](https://github.com/trusteddomainproject/OpenDKIM)
 
 ![OpenDKIM Logo](https://raw.githubusercontent.com/instrumentisto/opendkim-docker-image/main/logo.png)
 

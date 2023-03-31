@@ -23,8 +23,8 @@ REGISTRIES := $(strip $(subst $(comma), ,\
 	$(shell grep -m1 'registry: \["' .github/workflows/ci.yml \
 	        | cut -d':' -f2 | tr -d '"][')))
 ALL_IMAGES := \
-	debian:2.10.3-r30,2.10.3,2.10,2,latest \
-	alpine:2.10.3-r30-alpine,2.10.3-alpine,2.10-alpine,2-alpine,alpine
+	debian:2.11.0-Beta2-r0,2.11.0-Beta2,2.11,2,latest \
+	alpine:2.11.0-Beta2-r0-alpine,2.11.0-Beta2-alpine,2.11-alpine,2-alpine,alpine
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
 
 # Default is first image from ALL_IMAGES list.
@@ -32,8 +32,10 @@ DOCKERFILE ?= $(word 1,$(subst :, ,$(word 1,$(ALL_IMAGES))))
 TAGS ?= $(word 1,$(subst |, ,\
 	$(word 2,!$(subst $(DOCKERFILE):, ,$(subst $(space),|,$(ALL_IMAGES))))))
 VERSION ?= $(word 1,$(subst -, ,$(TAGS)))-$(word 2,$(strip \
+	$(subst -, ,$(subst $(comma), ,$(TAGS)))))-$(word 3,$(strip \
 	$(subst -, ,$(subst $(comma), ,$(TAGS)))))
-OPENDKIM_VER ?= $(word 1,$(subst -, ,$(VERSION)))
+OPENDKIM_VER ?= $(word 1,$(subst -, ,$(VERSION)))-$(word 2,$(strip \
+	$(subst -, ,$(VERSION))))
 
 
 
@@ -171,7 +173,7 @@ ifeq ($(codegen-dockerfile-dir),@all)
 else
 	$(call codegen.dockerfile.do,\
 		$(codegen-dockerfile-dir),\
-		$(word 1,$(subst -, ,$(word 1,$(subst |, ,\
+		$(word 1,$(subst $(comma), ,$(word 1,$(subst |, ,\
 			$(word 2,!$(subst $(codegen-dockerfile-dir):, ,$(subst $(space),|,\
 			                                               $(ALL_IMAGES)))))))))
 endif

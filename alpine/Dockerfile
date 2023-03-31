@@ -4,13 +4,12 @@
 # https://hub.docker.com/_/alpine
 FROM alpine:3.17
 
-ARG opendkim_ver=2.10.3
-ARG opendkim_sum=97923e533d072c07ae4d16a46cbed95ee799aa50f19468d8bc6d1dc534025a8616c3b4b68b5842bc899b509349a2c9a67312d574a726b048c0ea46dd4fcc45d8
+ARG opendkim_ver=2.11.0-Beta2
 ARG s6_overlay_ver=3.1.4.1
 
 
 # Build and install OpenDKIM
-# https://git.alpinelinux.org/cgit/aports/tree/community/opendkim/APKBUILD?h=3b749b4a926cd6db8c9f9f65b71d2f94e3fb08e5
+# https://git.alpinelinux.org/cgit/aports/tree/community/opendkim/APKBUILD?h=4322107ba395a710a041ee479c5805c97169a36b
 RUN apk update \
  && apk upgrade \
  && apk add --no-cache \
@@ -19,32 +18,28 @@ RUN apk update \
     \
  # Install OpenDKIM dependencies
  && apk add --no-cache --force \
-        libressl3.6-libcrypto libressl3.6-libssl \
+        libcrypto3 libssl3 \
         libmilter \
-        # Perl and LibreSSL required for opendkim-* utilities
-        libressl perl \
- # Add openssl symlink to libressl to fix incompatibility with OpenDKIM
- # since Alpine 3.11
- && ln -sf /usr/bin/libressl /usr/bin/openssl \
+        # Perl and OpenSSL required for opendkim-* utilities
+        openssl perl \
     \
  # Install tools for building
  && apk add --no-cache --virtual .tool-deps \
-        curl coreutils autoconf g++ libtool make \
+        autoconf automake curl g++ libtool make \
     \
  # Install OpenDKIM build dependencies
  && apk add --no-cache --virtual .build-deps \
-        libressl-dev \
+        openssl-dev \
         libmilter-dev \
     \
  # Download and prepare OpenDKIM sources
  && curl -fL -o /tmp/opendkim.tar.gz \
-         https://downloads.sourceforge.net/project/opendkim/opendkim-${opendkim_ver}.tar.gz \
- && (echo "${opendkim_sum}  /tmp/opendkim.tar.gz" \
-         | sha512sum -c -) \
+         https://github.com/trusteddomainproject/OpenDKIM/archive/refs/tags/${opendkim_ver}.tar.gz \
  && tar -xzf /tmp/opendkim.tar.gz -C /tmp/ \
- && cd /tmp/opendkim-* \
+ && cd /tmp/OpenDKIM-* \
     \
  # Build OpenDKIM from sources
+ && autoreconf -i \
  && ./configure \
         --prefix=/usr \
         --sysconfdir=/etc/opendkim \
