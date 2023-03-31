@@ -10,10 +10,16 @@ ARG s6_overlay_ver=3.1.4.1
 
 
 # Build and install OpenDKIM
-RUN apt-get update \
- && apt-get upgrade -y \
- && apt-get install -y --no-install-recommends --no-install-suggests \
-                    --force-yes \
+RUN (echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie main" \
+         > /etc/apt/sources.list) \
+ && (echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" \
+         >> /etc/apt/sources.list) \
+ && (echo 'Acquire::Check-Valid-Until "false";' \
+         > /etc/apt/apt.conf.d/90-check-valid-until-no) \
+ && apt-get -o Acquire::Check-Valid-Until=false update \
+ && apt-get upgrade -y --force-yes \
+ && apt-get install -y --force-yes --no-install-recommends \
+                                   --no-install-suggests \
             inetutils-syslogd \
             ca-certificates \
  # Temporary fix for CA certs until OpenDKIM builds on later Debian versions:
@@ -22,18 +28,19 @@ RUN apt-get update \
  && update-ca-certificates -f \
     \
  # Install OpenDKIM dependencies
- && apt-get install -y --no-install-recommends --no-install-suggests \
-                    --force-yes \
+ && apt-get install -y --force-yes --no-install-recommends \
+                                   --no-install-suggests \
             libssl1.0.0 \
             libmilter1.0.1 \
             libbsd0 \
     \
  # Install tools for building
+ && (echo 'Yes, do as I say!' | apt-get remove -y --force-yes gcc-4.9-base) \
  && toolDeps=" \
         curl make gcc g++ libc-dev \
     " \
- && apt-get install -y --no-install-recommends --no-install-suggests \
-                    --force-yes \
+ && apt-get install -y --force-yes --no-install-recommends \
+                                   --no-install-suggests \
             $toolDeps \
     \
  # Install OpenDKIM build dependencies
@@ -42,8 +49,8 @@ RUN apt-get update \
         libmilter-dev \
         libbsd-dev \
     " \
- && apt-get install -y --no-install-recommends --no-install-suggests \
-                    --force-yes \
+ && apt-get install -y --force-yes --no-install-recommends \
+                                   --no-install-suggests \
             $buildDeps \
     \
  # Download and prepare OpenDKIM sources
@@ -94,9 +101,9 @@ RUN apt-get update \
 
 
 # Install s6-overlay
-RUN apt-get update \
- && apt-get install -y --no-install-recommends --no-install-suggests \
-                    --force-yes \
+RUN apt-get -o Acquire::Check-Valid-Until=false update \
+ && apt-get install -y --force-yes --no-install-recommends \
+                                   --no-install-suggests \
             curl xz-utils \
  && curl -fL -o /tmp/s6-overlay-noarch.tar.xz \
          https://github.com/just-containers/s6-overlay/releases/download/v${s6_overlay_ver}/s6-overlay-noarch.tar.xz \

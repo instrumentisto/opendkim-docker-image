@@ -28,10 +28,16 @@ RUN apk update \
         ca-certificates \
  && update-ca-certificates \
 <? } else { ?>
-RUN apt-get update \
- && apt-get upgrade -y \
- && apt-get install -y --no-install-recommends --no-install-suggests \
-                    --force-yes \
+RUN (echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie main" \
+         > /etc/apt/sources.list) \
+ && (echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" \
+         >> /etc/apt/sources.list) \
+ && (echo 'Acquire::Check-Valid-Until "false";' \
+         > /etc/apt/apt.conf.d/90-check-valid-until-no) \
+ && apt-get -o Acquire::Check-Valid-Until=false update \
+ && apt-get upgrade -y --force-yes \
+ && apt-get install -y --force-yes --no-install-recommends \
+                                   --no-install-suggests \
             inetutils-syslogd \
             ca-certificates \
  # Temporary fix for CA certs until OpenDKIM builds on later Debian versions:
@@ -51,8 +57,8 @@ RUN apt-get update \
  # since Alpine 3.11
  && ln -sf /usr/bin/libressl /usr/bin/openssl \
 <? } else { ?>
- && apt-get install -y --no-install-recommends --no-install-suggests \
-                    --force-yes \
+ && apt-get install -y --force-yes --no-install-recommends \
+                                   --no-install-suggests \
             libssl1.0.0 \
             libmilter1.0.1 \
             libbsd0 \
@@ -63,11 +69,12 @@ RUN apt-get update \
  && apk add --no-cache --virtual .tool-deps \
         curl coreutils autoconf g++ libtool make \
 <? } else { ?>
+ && (echo 'Yes, do as I say!' | apt-get remove -y --force-yes gcc-4.9-base) \
  && toolDeps=" \
         curl make gcc g++ libc-dev \
     " \
- && apt-get install -y --no-install-recommends --no-install-suggests \
-                    --force-yes \
+ && apt-get install -y --force-yes --no-install-recommends \
+                                   --no-install-suggests \
             $toolDeps \
 <? } ?>
     \
@@ -82,8 +89,8 @@ RUN apt-get update \
         libmilter-dev \
         libbsd-dev \
     " \
- && apt-get install -y --no-install-recommends --no-install-suggests \
-                    --force-yes \
+ && apt-get install -y --force-yes --no-install-recommends \
+                                   --no-install-suggests \
             $buildDeps \
 <? } ?>
     \
@@ -153,9 +160,9 @@ RUN apt-get update \
 RUN apk add --update --no-cache --virtual .tool-deps \
         curl \
 <? } else { ?>
-RUN apt-get update \
- && apt-get install -y --no-install-recommends --no-install-suggests \
-                    --force-yes \
+RUN apt-get -o Acquire::Check-Valid-Until=false update \
+ && apt-get install -y --force-yes --no-install-recommends \
+                                   --no-install-suggests \
             curl xz-utils \
 <? } ?>
  && curl -fL -o /tmp/s6-overlay-noarch.tar.xz \
