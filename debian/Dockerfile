@@ -5,7 +5,7 @@
 FROM debian:bullseye-slim
 
 ARG opendkim_ver=2.11.0-Beta2
-ARG s6_overlay_ver=3.1.4.1
+ARG s6_overlay_ver=3.1.4.2
 
 
 # Build and install OpenDKIM

@@ -15,7 +15,7 @@ FROM debian:bullseye-slim
 <? } ?>
 
 ARG opendkim_ver=<?= explode('-', $var['version'])[0].'-'.explode('-', $var['version'])[1]."\n"; ?>
-ARG s6_overlay_ver=3.1.4.1
+ARG s6_overlay_ver=3.1.4.2
 
 
 # Build and install OpenDKIM

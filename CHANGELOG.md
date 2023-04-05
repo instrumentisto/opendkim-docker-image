@@ -6,6 +6,18 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [2.11.0-Beta2-r1] · 2023-03-31
+[2.11.0-Beta2-r1]: /../../tree/2.11.0-Beta2-r1
+
+[Diff](/../../compare/2.11.0-Beta2-r0...2.11.0-Beta2-r1)
+
+### Upgraded
+
+- [s6-overlay] 3.1.4.2: <https://github.com/just-containers/s6-overlay/releases/tag/v3.1.4.2>
+
+
+
+
 ## [2.11.0-Beta2-r0] · 2023-03-31
 [2.11.0-Beta2-r0]: /../../tree/2.11.0-Beta2-r0
 
