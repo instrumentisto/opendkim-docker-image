@@ -6,6 +6,22 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [2.11.0-Beta2-r2] · 2023-05-05
+[2.11.0-Beta2-r2]: /../../tree/2.11.0-Beta2-r2
+
+[Diff](/../../compare/2.11.0-Beta2-r1...2.11.0-Beta2-r2)
+
+### Upgraded
+
+- [s6-overlay] 3.1.5.0: <https://github.com/just-containers/s6-overlay/releases/tag/v3.1.5.0>
+
+### Security updated
+
+- [Debian Linux] "bullseye" 20230502: <https://github.com/docker-library/official-images/commit/e4358612aca01fd8aa393e7b3d590d45ae72e9af>
+
+
+
+
 ## [2.11.0-Beta2-r1] · 2023-03-31
 [2.11.0-Beta2-r1]: /../../tree/2.11.0-Beta2-r1
 
