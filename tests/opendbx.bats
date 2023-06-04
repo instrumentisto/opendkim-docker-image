@@ -70,7 +70,7 @@ export IMAGE="${IMAGE:-"docker.io/instrumentisto/opendkim:2.11.0-Beta2-r3"}"
                 mariadb:10.11.3
             [ "$status" -eq 0 ]
 
-            # Wait for MariaDB to become available and ready to serve queries
+            # Wait for the DB to become available and ready to serve queries
             ATTEMPTS=0
             MAX_ATTEMPTS=10
             until [ "$(docker exec test-db mysql -u$DB_USER -p$DB_PASSWORD -e "SELECT COUNT(*) FROM $DB_NAME.dkim_keys;" | awk 'NR==2')" -gt 0 ] ; do
@@ -93,7 +93,7 @@ export IMAGE="${IMAGE:-"docker.io/instrumentisto/opendkim:2.11.0-Beta2-r3"}"
                 postgres:15.3-alpine3.18
             [ "$status" -eq 0 ]
 
-            # Wait for MariaDB to become available and ready to serve queries
+            # Wait for the DB to become available and ready to serve queries
             ATTEMPTS=0
             MAX_ATTEMPTS=20
             until [ "$(docker exec -e PGPASSWORD="$DB_PASSWORD" test-db psql -t -U $DB_USER -d $DB_NAME -c "SELECT COUNT(*) FROM dkim_keys;" | tr -d '[:space:]')" -gt 0 ] ; do
@@ -127,7 +127,6 @@ export IMAGE="${IMAGE:-"docker.io/instrumentisto/opendkim:2.11.0-Beta2-r3"}"
         # Send a test email through Postfix
         run docker exec test-postfix-1 sendmail -f root@isi.edu root@yahoo.com \
           < $(pwd)/tests/resources/postfix/test.eml
-
         [ "$status" -eq 0 ]
 
         # Wait for the mail to deliver

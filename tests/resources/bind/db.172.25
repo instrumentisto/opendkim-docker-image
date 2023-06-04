@@ -1,7 +1,7 @@
 $ORIGIN 25.172.in-addr.arpa.
 $TTL	60
-;                         email                    serial      refresh  retry  exp   ttl
-@ IN SOA ns.isi.edu ( admin.isi.edu.           1957100401  1800     600    3600  900 )
+;                     email           serial      refresh  retry  exp   ttl
+@ IN SOA ns.isi.edu ( admin.isi.edu.  1957100401  1800     600    3600  900 )
 @ IN NS ns.isi.edu
 2.0 IN PTR ns.isi.edu
 5.0 IN PTR mail.isi.edu
