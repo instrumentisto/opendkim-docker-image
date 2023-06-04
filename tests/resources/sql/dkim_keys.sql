@@ -1,15 +1,14 @@
-CREATE TABLE IF NOT EXISTS `dkim_keys` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `domain` varchar(255) NOT NULL,
-  `selector` varchar(255) NOT NULL,
-  `private_key` text NOT NULL,
-  `public_key` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `domain_selector` (`domain`,`selector`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS dkim_keys (
+  id SERIAL PRIMARY KEY,
+  domain VARCHAR(255) NOT NULL,
+  selector VARCHAR(255) NOT NULL,
+  private_key TEXT NOT NULL,
+  public_key TEXT NOT NULL,
+  UNIQUE(domain, selector)
+);
 
-INSERT INTO `dkim_keys`
-(`id`, `domain`, `selector`, `public_key`, `private_key`) VALUES
+INSERT INTO dkim_keys
+(id, domain, selector, public_key, private_key) VALUES
 ( 1, 'isi.edu', 'myselector',
   'v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8Sk09e7toaBcrcBy3Rw8P4Qe4WDqj2qXl5qIvfWHFfrhJ7eBEBf1w/ej6FTnKWRstH3xZJzEjJAGa+Zl7+EugBECJ/tBZyneTYagfY+KBH2JXqaxbwybRX1vfbBuRSbTaYINoiQYncBoF5bv+rXpOWTIpVR9TMh/7+IYJDS4nPo8HdmevZyhLF0YcY0pVljfZDjtIzbJu6KPpENNp/wVqrfpLGi8y0EPf+bAE9EcvBbpX0nK9Gf3HJ1M7ot+VCIAiLsZoyX63g/TSXn6FBllsJK7iEWPT+556JaunVCkLinzZloNVgsxsi/1GbGGZ9F4E4eTALo+PUHltzsNhwML+QIDAQAB',
   '-----BEGIN RSA PRIVATE KEY-----
