@@ -14,6 +14,7 @@ RUN apk update \
  && apk upgrade \
  && apk add --no-cache \
         ca-certificates \
+        libmilter \
  && update-ca-certificates \
     \
  # Install OpenDKIM dependencies
@@ -22,18 +23,33 @@ RUN apk update \
         libmilter \
         # Perl and OpenSSL required for opendkim-* utilities
         openssl perl \
+        mariadb-connector-c \
     \
  # Install tools for building
  && apk add --no-cache --virtual .tool-deps \
         autoconf automake curl g++ libtool make \
     \
- # Install OpenDKIM build dependencies
+ # Install OpenDKIM + OpenDBX build dependencies
  && apk add --no-cache --virtual .build-deps \
         openssl-dev \
         libmilter-dev \
+        db-dev \
+        mariadb-dev \
+        readline-dev \
+    \
+ # Download and prepare OpenDBX sources
+ && curl -fL -o /tmp/opendbx.tar.gz \
+           http://linuxnetworks.de/opendbx/download/opendbx-1.4.6.tar.gz \
+ && tar -xzf /tmp/opendbx.tar.gz -C /tmp/ \
+ && cd /tmp/opendbx-* \
+    \
+ # Build OpenDBX from sources
+ && export CXXFLAGS="-std=c++14" \
+ && CPPFLAGS="-I/usr/include/mysql" ./configure --with-backends="mysql" \
+ && make install \
     \
  # Download and prepare OpenDKIM sources
- && curl -fL -o /tmp/opendkim.tar.gz \
+ && curl -f -L -o /tmp/opendkim.tar.gz \
          https://github.com/trusteddomainproject/OpenDKIM/archive/refs/tags/${opendkim_ver}.tar.gz \
  && tar -xzf /tmp/opendkim.tar.gz -C /tmp/ \
  && cd /tmp/OpenDKIM-* \
@@ -43,6 +59,9 @@ RUN apk update \
  && ./configure \
         --prefix=/usr \
         --sysconfdir=/etc/opendkim \
+        --with-odbx \
+        --with-openssl \
+        --with-sql-backend \
         # No documentation included to keep image size smaller
         --docdir=/tmp/opendkim/doc \
         --htmldir=/tmp/opendkim/html \

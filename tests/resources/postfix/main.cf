@@ -1,0 +1,18 @@
+# Docker env should log to stdio
+maillog_file = /dev/stdout
+
+# $mydomain is not in $mydestination by default
+mydestination = $mydomain, $myhostname, localhost.$mydomain, localhost
+
+# Turn off default aliases
+alias_maps =
+alias_database =
+
+# Use OpenDKIM
+milter_protocol = 6
+milter_default_action = accept
+smtpd_milters = inet:test-opendkim:8891
+non_smtpd_milters = inet:test-opendkim:8891
+
+# Strict recipient checking
+smtpd_recipient_restrictions = reject_unauth_destination
