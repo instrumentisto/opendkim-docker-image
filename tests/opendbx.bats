@@ -3,15 +3,16 @@ export DB_USER="myuser"
 export DB_NAME="mydb"
 export IMAGE="${IMAGE:-"docker.io/instrumentisto/opendkim:2.11.0-Beta2-r3"}"
 
-@test "opendbx: initial clean up" {
+@test "opendbx: end-to-end test" {
+
+    # Clean up any previous containers and networks
     run docker rm -f test-bind test-opendkim test-postfix-1 test-postfix-2 test-db
     [ "$status" -eq 0 ]
 
     run docker network rm -f test-network
     [ "$status" -eq 0 ]
-}
 
-@test "opendbx: end-to-end test" {
+    # Create a new network
     run docker network create --driver bridge \
         --subnet 172.25.0.0/16 \
         --ip-range 172.25.5.0/24 \
@@ -36,7 +37,7 @@ export IMAGE="${IMAGE:-"docker.io/instrumentisto/opendkim:2.11.0-Beta2-r3"}"
         -v $(pwd)/tests/resources/bind:/etc/bind \
         opendkim-test-bind
 
-    for DATABASE in postgres mariadb; do
+    for DATABASE in mariadb postgres; do
 
         # Start the Postfix containers
         run docker run -d --rm --name test-postfix-1 --pull never \
@@ -150,6 +151,7 @@ export IMAGE="${IMAGE:-"docker.io/instrumentisto/opendkim:2.11.0-Beta2-r3"}"
     done
 }
 
+# Run clean-up as a separate test so it always runs, even if the above fails
 @test "opendbx: clean up" {
     run docker rm -f test-bind test-opendkim test-postfix-1 test-postfix-2 test-db
     [ "$status" -eq 0 ]
