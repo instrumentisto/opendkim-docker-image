@@ -5,6 +5,7 @@
 FROM debian:bullseye-slim
 
 ARG opendkim_ver=2.11.0-Beta2
+ARG opendbx_ver=1.4.6
 ARG s6_overlay_ver=3.1.5.0
 
 
@@ -16,13 +17,12 @@ RUN apt-get update \
             ca-certificates \
  && update-ca-certificates \
     \
- # Install OpenDKIM dependencies
+ # Install OpenDKIM and OpenDBX dependencies
  && apt-get install -y --no-install-recommends --no-install-suggests \
             libssl1.1 \
             libmilter1.0.1 \
+            libmariadb3 libpq5 libsqlite3-0 \
             libbsd0 \
-            libmariadb3 \
-            libpq5 \
     \
  # Install tools for building
  && toolDeps=" \
@@ -31,29 +31,41 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             $toolDeps \
     \
- # Install OpenDKIM + OpenDBX build dependencies
+ # Install OpenDKIM and OpenDBX build dependencies
  && buildDeps=" \
         libssl-dev \
         libmilter-dev \
         libbsd-dev \
-        libdb-dev \
-        libreadline-dev \
-        default-libmysqlclient-dev \
-        libpq-dev \
+        libdb-dev libmariadb-dev libpq-dev libsqlite3-dev libreadline-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             $buildDeps \
     \
  # Download and prepare OpenDBX sources
  && curl -fL -o /tmp/opendbx.tar.gz \
-           http://linuxnetworks.de/opendbx/download/opendbx-1.4.6.tar.gz \
+         https://linuxnetworks.de/opendbx/download/opendbx-${opendbx_ver}.tar.gz \
  && tar -xzf /tmp/opendbx.tar.gz -C /tmp/ \
  && cd /tmp/opendbx-* \
     \
  # Build OpenDBX from sources
- && export CXXFLAGS="-std=c++14" \
- && CPPFLAGS="-I/usr/include/mysql -I/usr/include/postgresql" ./configure --with-backends="mysql pgsql" \
+ && CXXFLAGS="-std=c++14" \
+    CPPFLAGS="-I/usr/include/mysql -I/usr/include/postgresql" \
+    ./configure \
+        --prefix=/usr \
+        --disable-static \
+        --with-backends="mysql pgsql sqlite3" \
+        # No documentation included to keep image size smaller
+        --docdir=/tmp/opendbx/doc \
+        --htmldir=/tmp/opendbx/html \
+        --infodir=/tmp/opendbx/info \
+        --mandir=/tmp/opendbx/man \
+ && make \
+    \
+ # Install OpenDBX
  && make install \
+ # Preserve license
+ && install -d /usr/share/licenses/opendbx/ \
+ && mv COPYING /usr/share/licenses/opendbx/ \
     \
  # Download and prepare OpenDKIM sources
  && curl -fL -o /tmp/opendkim.tar.gz \

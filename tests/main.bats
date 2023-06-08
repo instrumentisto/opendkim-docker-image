@@ -28,6 +28,13 @@
   [ "$actual" == "$expected" ]
 }
 
+@test "opendkim: uses OpenDBX" {
+  run docker run --rm --pull never --entrypoint sh $IMAGE -c \
+    "opendkim -V | grep 'USE_ODBX'"
+  [ "$status" -eq 0 ]
+  [ "$output" != '' ]
+}
+
 @test "opendkim-genkey: runs ok" {
   run docker run --rm --pull never --entrypoint sh $IMAGE -c \
     'opendkim-genkey && [ -f default.private ] && [ -f default.txt ]'
