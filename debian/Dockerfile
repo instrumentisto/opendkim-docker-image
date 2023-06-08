@@ -36,7 +36,8 @@ RUN apt-get update \
         libssl-dev \
         libmilter-dev \
         libbsd-dev \
-        libdb-dev libmariadb-dev libpq-dev libsqlite3-dev libreadline-dev \
+        libdb-dev libmariadb-dev libmariadb-dev-compat libpq-dev \
+        libsqlite3-dev libreadline-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             $buildDeps \
