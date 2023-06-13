@@ -6,6 +6,18 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [2.11.0-Beta2-r4] · 2023-06-??
+[2.11.0-Beta2-r4]: /../../tree/2.11.0-Beta2-r4
+
+[Diff](/../../compare/2.11.0-Beta2-r3...2.11.0-Beta2-r4)
+
+### Upgraded
+
+- [Debian Linux] "bookworm": <https://www.debian.org/releases/bookworm>
+
+
+
+
 ## [2.11.0-Beta2-r3] · 2023-05-10
 [2.11.0-Beta2-r3]: /../../tree/2.11.0-Beta2-r3
 

@@ -11,7 +11,7 @@ $AlpineRepoCommit = '4322107ba395a710a041ee479c5805c97169a36b';
 FROM alpine:3.18
 <? } else { ?>
 # https://hub.docker.com/_/debian
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 <? } ?>
 
 ARG opendkim_ver=<?= explode('-', $var['version'])[0].'-'.explode('-', $var['version'])[1]."\n"; ?>
@@ -43,7 +43,7 @@ RUN apt-get update \
         openssl perl \
 <? } else { ?>
  && apt-get install -y --no-install-recommends --no-install-suggests \
-            libssl1.1 \
+            libssl3 \
             libmilter1.0.1 \
             libbsd0 \
 <? } ?>
@@ -150,11 +150,6 @@ RUN apt-get update \
          https://github.com/just-containers/s6-overlay/releases/download/v${s6_overlay_ver}/s6-overlay-x86_64.tar.xz \
  && tar -xf /tmp/s6-overlay-noarch.tar.xz -C / \
  && tar -xf /tmp/s6-overlay-bin.tar.xz -C / \
-<? if (!$isAlpineImage) { ?>
-    \
- # Fix syslogd path
- && ln -s /usr/sbin/syslogd /sbin/syslogd \
-<? } ?>
     \
  # Cleanup unnecessary stuff
 <? if ($isAlpineImage) { ?>
