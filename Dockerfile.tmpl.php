@@ -8,7 +8,7 @@ $AlpineRepoCommit = '4322107ba395a710a041ee479c5805c97169a36b';
 
 <? if ($isAlpineImage) { ?>
 # https://hub.docker.com/_/alpine
-FROM alpine:3.18
+FROM alpine:3.18.2
 <? } else { ?>
 # https://hub.docker.com/_/debian
 FROM debian:bookworm-slim

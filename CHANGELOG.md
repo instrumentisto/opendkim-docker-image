@@ -15,6 +15,10 @@ All user visible changes to this project will be documented in this file. This p
 
 - [Debian Linux] "bookworm": <https://www.debian.org/releases/bookworm>
 
+### Security updated
+
+- [Alpine Linux] 3.18.2: <https://github.com/docker-library/official-images/commit/b187a3b64f4b23f4de4aef23b98cef0a128aa8f1>
+
 
 
 
