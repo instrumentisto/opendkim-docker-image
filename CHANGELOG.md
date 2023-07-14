@@ -6,10 +6,14 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## [2.11.0-Beta2-r4] · 2023-06-??
+## [2.11.0-Beta2-r4] · 2023-07-14
 [2.11.0-Beta2-r4]: /../../tree/2.11.0-Beta2-r4
 
 [Diff](/../../compare/2.11.0-Beta2-r3...2.11.0-Beta2-r4)
+
+### Added
+
+- Support of [MySQL], [PostgreSQL] and [SQLite] via [OpenDBX]. ([#9], [#8])
 
 ### Upgraded
 
@@ -18,6 +22,9 @@ All user visible changes to this project will be documented in this file. This p
 ### Security updated
 
 - [Alpine Linux] 3.18.2: <https://github.com/docker-library/official-images/commit/b187a3b64f4b23f4de4aef23b98cef0a128aa8f1>
+
+[#8]: /../../issues/8
+[#9]: /../../pull/9
 
 
 
@@ -447,6 +454,10 @@ All user visible changes to this project will be documented in this file. This p
 
 [Alpine Linux]: https://www.alpinelinux.org
 [Debian Linux]: https://www.debian.org
+[MySQL]: https://www.mysql.com
+[OpenDBX]: https://www.linuxnetworks.de/doc/index.php/OpenDBX
 [OpenDKIM]: http://www.opendkim.org
+[PostgreSQL]: https://www.postgresql.org
 [s6-overlay]: https://github.com/just-containers/s6-overlay
 [Semantic Versioning 2.0.0]: https://semver.org
+[SQLite]: https://www.sqlite.org

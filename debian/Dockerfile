@@ -20,6 +20,8 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             libssl3 \
             libmilter1.0.1 \
+            libopendbx1 \
+            libopendbx1-mysql libopendbx1-pgsql libopendbx1-sqlite3 \
             libbsd0 \
     \
  # Install tools for building
@@ -33,6 +35,7 @@ RUN apt-get update \
  && buildDeps=" \
         libssl-dev \
         libmilter-dev \
+        libopendbx1-dev \
         libbsd-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
@@ -49,6 +52,9 @@ RUN apt-get update \
  && ./configure \
         --prefix=/usr \
         --sysconfdir=/etc/opendkim \
+        --with-odbx \
+        --with-openssl \
+        --with-sql-backend \
         # No documentation included to keep image size smaller
         --docdir=/tmp/opendkim/doc \
         --htmldir=/tmp/opendkim/html \

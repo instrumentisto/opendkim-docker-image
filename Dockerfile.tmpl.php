@@ -8,7 +8,7 @@ $AlpineRepoCommit = '4322107ba395a710a041ee479c5805c97169a36b';
 
 <? if ($isAlpineImage) { ?>
 # https://hub.docker.com/_/alpine
-FROM alpine:3.18.2
+FROM alpine:3.18
 <? } else { ?>
 # https://hub.docker.com/_/debian
 FROM debian:bookworm-slim
@@ -21,7 +21,10 @@ ARG s6_overlay_ver=3.1.5.0
 # Build and install OpenDKIM
 <? if ($isAlpineImage) { ?>
 # https://git.alpinelinux.org/cgit/aports/tree/community/opendkim/APKBUILD?h=<?= $AlpineRepoCommit."\n"; ?>
-RUN apk update \
+# TODO: Remove once `opendbx` Alpine package hits stable.
+RUN echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community" \
+    >> /etc/apk/repositories \
+ && apk update \
  && apk upgrade \
  && apk add --no-cache \
         ca-certificates \
@@ -39,12 +42,16 @@ RUN apt-get update \
  && apk add --no-cache --force \
         libcrypto3 libssl3 \
         libmilter \
+        opendbx \
+        opendbx-backend-mysql opendbx-backend-postgres opendbx-backend-sqlite \
         # Perl and OpenSSL required for opendkim-* utilities
         openssl perl \
 <? } else { ?>
  && apt-get install -y --no-install-recommends --no-install-suggests \
             libssl3 \
             libmilter1.0.1 \
+            libopendbx1 \
+            libopendbx1-mysql libopendbx1-pgsql libopendbx1-sqlite3 \
             libbsd0 \
 <? } ?>
     \
@@ -65,10 +72,12 @@ RUN apt-get update \
  && apk add --no-cache --virtual .build-deps \
         openssl-dev \
         libmilter-dev \
+        opendbx-dev \
 <? } else { ?>
  && buildDeps=" \
         libssl-dev \
         libmilter-dev \
+        libopendbx1-dev \
         libbsd-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
@@ -86,6 +95,9 @@ RUN apt-get update \
  && ./configure \
         --prefix=/usr \
         --sysconfdir=/etc/opendkim \
+        --with-odbx \
+        --with-openssl \
+        --with-sql-backend \
         # No documentation included to keep image size smaller
         --docdir=/tmp/opendkim/doc \
         --htmldir=/tmp/opendkim/html \
