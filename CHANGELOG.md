@@ -6,6 +6,19 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [2.11.0-Beta2-r5] · 2023-08-09
+[2.11.0-Beta2-r5]: /../../tree/2.11.0-Beta2-r5
+
+[Diff](/../../compare/2.11.0-Beta2-r4...2.11.0-Beta2-r5)
+
+### Security updated
+
+- [Alpine Linux] 3.18.3: <https://github.com/docker-library/official-images/commit/3cd1b36bebfa5684e9c1ab89d5673b32453a05d9>
+- [Debian Linux] "bookworm" 20230725: <https://github.com/docker-library/official-images/commit/c4720be18315c939088c4b57472955cdc4d08a4a>
+
+
+
+
 ## [2.11.0-Beta2-r4] · 2023-07-14
 [2.11.0-Beta2-r4]: /../../tree/2.11.0-Beta2-r4
 
