@@ -26,7 +26,7 @@ jobs:
         dist: ["alpine", "debian"]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: docker/setup-buildx-action@v2
@@ -65,7 +65,7 @@ jobs:
         dist: ["alpine", "debian"]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: make npm.install
 
       - uses: actions/download-artifact@v3
@@ -108,7 +108,7 @@ jobs:
                     && secrets.DOCKERHUB_BOT_USER == ''))
              ) }}" >> $GITHUB_OUTPUT
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: ${{ steps.skip.outputs.no == 'true' }}
 
       - name: Parse Docker image name from Git repository name
@@ -183,7 +183,7 @@ jobs:
     needs: ["push"]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Parse semver versions from Git tag
         id: semver
