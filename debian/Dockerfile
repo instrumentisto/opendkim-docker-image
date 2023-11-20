@@ -5,7 +5,7 @@
 FROM debian:bookworm-slim
 
 ARG opendkim_ver=2.11.0-Beta2
-ARG s6_overlay_ver=3.1.6.0
+ARG s6_overlay_ver=3.1.6.1
 
 
 # Build and install OpenDKIM
