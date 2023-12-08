@@ -6,6 +6,18 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [2.11.0-Beta2-r11] · 2023-12-08
+[2.11.0-Beta2-r11]: /../../tree/2.11.0-Beta2-r11
+
+[Diff](/../../compare/2.11.0-Beta2-r10...2.11.0-Beta2-r11)
+
+### Upgraded
+
+- [Alpine Linux] 3.19: <https://alpinelinux.org/posts/Alpine-3.19.0-released.html>
+
+
+
+
 ## [2.11.0-Beta2-r10] · 2023-12-01
 [2.11.0-Beta2-r10]: /../../tree/2.11.0-Beta2-r10
 
