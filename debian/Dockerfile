@@ -5,7 +5,7 @@
 FROM debian:bookworm-slim
 
 ARG opendkim_ver=2.11.0-Beta2
-ARG s6_overlay_ver=3.1.6.2
+ARG s6_overlay_ver=3.2.0.0
 
 
 # Build and install OpenDKIM
@@ -110,7 +110,8 @@ RUN apt-get update \
 
 ENV S6_KEEP_ENV=1 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-    S6_CMD_WAIT_FOR_SERVICES=1
+    S6_CMD_WAIT_FOR_SERVICES=1 \
+    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=5000
 
 
 COPY rootfs /
