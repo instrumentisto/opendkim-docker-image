@@ -6,6 +6,18 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [2.11.0-Beta2-r17] · 2024-??-?? (unreleased)
+[2.11.0-Beta2-r17]: /../../tree/2.11.0-Beta2-r17
+
+[Diff](/../../compare/2.11.0-Beta2-r17...)
+
+### Security updated
+
+- [Debian Linux] "bookworm" 20240926 (12.7): <https://github.com/docker-library/official-images/commit/c6dde1e6814c91480fdc6d0e67fe9df7795c5f5f>
+
+
+
+
 ## [2.11.0-Beta2-r17] · 2024-09-09
 [2.11.0-Beta2-r17]: /../../tree/2.11.0-Beta2-r17
 
