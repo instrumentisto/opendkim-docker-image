@@ -8,7 +8,7 @@ $AlpineRepoCommit = '4322107ba395a710a041ee479c5805c97169a36b';
 
 <? if ($isAlpineImage) { ?>
 # https://hub.docker.com/_/alpine
-FROM alpine:3.20
+FROM alpine:3.21
 <? } else { ?>
 # https://hub.docker.com/_/debian
 FROM debian:bookworm-slim
@@ -91,8 +91,9 @@ RUN apt-get update \
  && cd /tmp/OpenDKIM-* \
     \
  # Build OpenDKIM from sources
- && autoreconf -i \
- && ./configure \
+ && autoreconf -ivf \
+ && CFLAGS="$CFLAGS -Wno-implicit-function-declaration" \
+    ./configure \
         --prefix=/usr \
         --sysconfdir=/etc/opendkim \
         --with-odbx \

@@ -48,8 +48,9 @@ RUN apt-get update \
  && cd /tmp/OpenDKIM-* \
     \
  # Build OpenDKIM from sources
- && autoreconf -i \
- && ./configure \
+ && autoreconf -ivf \
+ && CFLAGS="$CFLAGS -Wno-implicit-function-declaration" \
+    ./configure \
         --prefix=/usr \
         --sysconfdir=/etc/opendkim \
         --with-odbx \
