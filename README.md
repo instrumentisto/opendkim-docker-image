@@ -2,7 +2,7 @@ OpenDKIM Docker image
 =====================
 
 [![Release](https://img.shields.io/github/v/release/instrumentisto/opendkim-docker-image "Release")](https://github.com/instrumentisto/opendkim-docker-image/releases)
-[![CI](https://github.com/instrumentisto/opendkim-docker-image/workflows/CI/badge.svg?branch=main "CI")](https://github.com/instrumentisto/opendkim-docker-image/actions?query=workflow%3ACI+branch%3Amain)
+[![CI](https://github.com/instrumentisto/opendkim-docker-image/actions/workflows/ci.yml/badge.svg?branch=main "CI")](https://github.com/instrumentisto/opendkim-docker-image/actions?query=workflow%3ACI+branch%3Amain)
 [![Docker Hub](https://img.shields.io/docker/pulls/instrumentisto/opendkim?label=Docker%20Hub%20pulls "Docker Hub pulls")](https://hub.docker.com/r/instrumentisto/opendkim)
 [![Uses](https://img.shields.io/badge/uses-s6--overlay-blue.svg "Uses s6-overlay")](https://github.com/just-containers/s6-overlay)
 
@@ -17,8 +17,8 @@ OpenDKIM Docker image
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`2.11.0-Beta2-r21`, `2.11.0-Beta2`, `2.11`, `2`, `latest`][101]
-- [`2.11.0-Beta2-r21-alpine`, `2.11.0-Beta2-alpine`, `2.11-alpine`, `2-alpine`, `alpine`][102]
+- [`2.11.0-Beta2-r22`, `2.11.0-Beta2`, `2.11`, `2`, `latest`][101]
+- [`2.11.0-Beta2-r22-alpine`, `2.11.0-Beta2-alpine`, `2.11-alpine`, `2-alpine`, `alpine`][102]
 
 
 

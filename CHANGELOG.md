@@ -6,13 +6,14 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## [main] · unreleased
-[main]: /../../tree/main
+## [2.11.0-Beta2-r22] · 2025-02-17
+[2.11.0-Beta2-r22]: /../../tree/2.11.0-Beta2-r22
 
-[Diff](/../../compare/2.11.0-Beta2-r21...main)
+[Diff](/../../compare/2.11.0-Beta2-r21...2.11.0-Beta2-r22)
 
 ### Security updated
 
+- [Alpine Linux] 3.21.3: <https://github.com/docker-library/official-images/commit/a536b8d448389cbe8691ab77986e2cbaff01005f>
 - [Debian Linux] "bookworm" 20250203 (12.9): <https://github.com/docker-library/official-images/commit/454b1e5e30feb21440c31c8c109cf4a6cc059d5e>
 
 
