@@ -6,9 +6,14 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## main
+## [2.11.0-Beta2-r25] · 2025-06-02
+[2.11.0-Beta2-r25]: /../../tree/2.11.0-Beta2-r25
 
-[Diff](/../../compare/2.11.0-Beta2-r24...main)
+[Diff](/../../compare/2.11.0-Beta2-r24...2.11.0-Beta2-r25)
+
+### Upgraded
+
+- [Alpine Linux] 3.22: <https://www.alpinelinux.org/posts/Alpine-3.22.0-released.html>
 
 ### Security updated
 
