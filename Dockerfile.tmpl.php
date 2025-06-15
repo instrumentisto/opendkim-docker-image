@@ -73,12 +73,14 @@ RUN apt-get update \
         openssl-dev \
         libmilter-dev \
         opendbx-dev \
+        lua5.1-dev \
 <? } else { ?>
  && buildDeps=" \
         libssl-dev \
         libmilter-dev \
         libopendbx1-dev \
         libbsd-dev \
+        lua5.1-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             $buildDeps \
@@ -99,6 +101,7 @@ RUN apt-get update \
         --with-odbx \
         --with-openssl \
         --with-sql-backend \
+        --with-lua \
         # No documentation included to keep image size smaller
         --docdir=/tmp/opendkim/doc \
         --htmldir=/tmp/opendkim/html \
