@@ -80,7 +80,7 @@ RUN apt-get update \
         libmilter-dev \
         libopendbx1-dev \
         libbsd-dev \
-        lua5.1-dev \
+        liblua5.1-0-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             $buildDeps \
