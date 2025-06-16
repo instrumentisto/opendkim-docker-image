@@ -6,9 +6,10 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## main
+## [2.11.0-Beta2-r26] · 2025-06-16
+[2.11.0-Beta2-r26]: /../../tree/2.11.0-Beta2-r26
 
-[Diff](/../../compare/2.11.0-Beta2-r25...main)
+[Diff](/../../compare/2.11.0-Beta2-r25...2.11.0-Beta2-r26)
 
 ### Added
 
