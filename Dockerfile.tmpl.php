@@ -98,10 +98,10 @@ RUN apt-get update \
     ./configure \
         --prefix=/usr \
         --sysconfdir=/etc/opendkim \
+        --with-lua \
         --with-odbx \
         --with-openssl \
         --with-sql-backend \
-        --with-lua \
         # No documentation included to keep image size smaller
         --docdir=/tmp/opendkim/doc \
         --htmldir=/tmp/opendkim/html \
