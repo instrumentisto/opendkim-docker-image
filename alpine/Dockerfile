@@ -37,6 +37,7 @@ RUN echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community" 
         openssl-dev \
         libmilter-dev \
         opendbx-dev \
+        lua5.1-dev \
     \
  # Download and prepare OpenDKIM sources
  && curl -fL -o /tmp/opendkim.tar.gz \
@@ -50,6 +51,7 @@ RUN echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community" 
     ./configure \
         --prefix=/usr \
         --sysconfdir=/etc/opendkim \
+        --with-lua \
         --with-odbx \
         --with-openssl \
         --with-sql-backend \
