@@ -23,6 +23,7 @@ RUN echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community" 
  && apk add --no-cache --force \
         libcrypto3 libssl3 \
         libmilter \
+        lua5.1-libs \
         opendbx \
         opendbx-backend-mysql opendbx-backend-postgres opendbx-backend-sqlite \
         # Perl and OpenSSL required for opendkim-* utilities

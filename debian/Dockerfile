@@ -19,6 +19,7 @@ RUN apt-get update \
  # Install OpenDKIM dependencies
  && apt-get install -y --no-install-recommends --no-install-suggests \
             libssl3 \
+            liblua5.1-0 \
             libmilter1.0.1 \
             libopendbx1 \
             libopendbx1-mysql libopendbx1-pgsql libopendbx1-sqlite3 \

@@ -42,6 +42,7 @@ RUN apt-get update \
  && apk add --no-cache --force \
         libcrypto3 libssl3 \
         libmilter \
+        lua5.1-libs \
         opendbx \
         opendbx-backend-mysql opendbx-backend-postgres opendbx-backend-sqlite \
         # Perl and OpenSSL required for opendkim-* utilities
@@ -49,6 +50,7 @@ RUN apt-get update \
 <? } else { ?>
  && apt-get install -y --no-install-recommends --no-install-suggests \
             libssl3 \
+            liblua5.1-0 \
             libmilter1.0.1 \
             libopendbx1 \
             libopendbx1-mysql libopendbx1-pgsql libopendbx1-sqlite3 \
