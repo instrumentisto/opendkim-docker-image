@@ -10,9 +10,15 @@ All user visible changes to this project will be documented in this file. This p
 
 [Diff](/../../compare/2.11.0-Beta2-r25...main)
 
+### Added
+
+- Support for processing mails [with a Lua script](http://www.opendkim.org/opendkim-lua.3.html) via `SetupPolicyScript` configuration parameter. ([#16])
+
 ### Security updated
 
 - [Debian Linux] "bookworm" 20250610 (12.11): <https://github.com/docker-library/official-images/commit/5b9d8958f88a1485f8edcaed4800fcfaac500b28>
+
+[#16]: /../../pull/16
 
 
 

@@ -42,6 +42,7 @@ RUN apt-get update \
  && apk add --no-cache --force \
         libcrypto3 libssl3 \
         libmilter \
+        lua5.1-libs \
         opendbx \
         opendbx-backend-mysql opendbx-backend-postgres opendbx-backend-sqlite \
         # Perl and OpenSSL required for opendkim-* utilities
@@ -49,6 +50,7 @@ RUN apt-get update \
 <? } else { ?>
  && apt-get install -y --no-install-recommends --no-install-suggests \
             libssl3 \
+            liblua5.1-0 \
             libmilter1.0.1 \
             libopendbx1 \
             libopendbx1-mysql libopendbx1-pgsql libopendbx1-sqlite3 \
@@ -73,12 +75,14 @@ RUN apt-get update \
         openssl-dev \
         libmilter-dev \
         opendbx-dev \
+        lua5.1-dev \
 <? } else { ?>
  && buildDeps=" \
         libssl-dev \
         libmilter-dev \
         libopendbx1-dev \
         libbsd-dev \
+        liblua5.1-0-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             $buildDeps \
@@ -96,6 +100,7 @@ RUN apt-get update \
     ./configure \
         --prefix=/usr \
         --sysconfdir=/etc/opendkim \
+        --with-lua \
         --with-odbx \
         --with-openssl \
         --with-sql-backend \

@@ -34,6 +34,12 @@
   [ "$status" -eq 0 ]
 }
 
+@test "opendkim: Lua supported" {
+  run docker run --rm --pull never --entrypoint sh $IMAGE -c \
+    'opendkim -V | grep -F USE_LUA'
+  [ "$status" -eq 0 ]
+}
+
 
 @test "opendkim-genkey: runs ok" {
   run docker run --rm --pull never --entrypoint sh $IMAGE -c \

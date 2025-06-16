@@ -19,6 +19,7 @@ RUN apt-get update \
  # Install OpenDKIM dependencies
  && apt-get install -y --no-install-recommends --no-install-suggests \
             libssl3 \
+            liblua5.1-0 \
             libmilter1.0.1 \
             libopendbx1 \
             libopendbx1-mysql libopendbx1-pgsql libopendbx1-sqlite3 \
@@ -37,6 +38,7 @@ RUN apt-get update \
         libmilter-dev \
         libopendbx1-dev \
         libbsd-dev \
+        liblua5.1-0-dev \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
             $buildDeps \
@@ -53,6 +55,7 @@ RUN apt-get update \
     ./configure \
         --prefix=/usr \
         --sysconfdir=/etc/opendkim \
+        --with-lua \
         --with-odbx \
         --with-openssl \
         --with-sql-backend \
