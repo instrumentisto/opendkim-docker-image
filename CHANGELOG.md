@@ -6,13 +6,14 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## main
+## [2.11.0-Beta2-r28] · 2025-08-13
+[2.11.0-Beta2-r28]: /../../tree/2.11.0-Beta2-r28
 
-[Diff](/../../compare/2.11.0-Beta2-r27...main)
+[Diff](/../../compare/2.11.0-Beta2-r27...2.11.0-Beta2-r28)
 
-### Security updated
+### Upgraded
 
-- [Debian Linux] "bookworm" 20250811 (12.11): <https://github.com/docker-library/official-images/commit/9104ff62fc7a735b9646379f7b3246ab471fbae4>
+- [Debian Linux] "trixie": <https://www.debian.org/releases/trixie>
 
 
 

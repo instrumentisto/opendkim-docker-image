@@ -11,7 +11,7 @@ $AlpineRepoCommit = '4322107ba395a710a041ee479c5805c97169a36b';
 FROM alpine:3.22
 <? } else { ?>
 # https://hub.docker.com/_/debian
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 <? } ?>
 
 ARG opendkim_ver=<?= explode('-', $var['version'])[0].'-'.explode('-', $var['version'])[1]."\n"; ?>
@@ -49,10 +49,10 @@ RUN apt-get update \
         openssl perl \
 <? } else { ?>
  && apt-get install -y --no-install-recommends --no-install-suggests \
-            libssl3 \
+            libssl3t64 \
             liblua5.1-0 \
             libmilter1.0.1 \
-            libopendbx1 \
+            libopendbx1t64 \
             libopendbx1-mysql libopendbx1-pgsql libopendbx1-sqlite3 \
             libbsd0 \
 <? } ?>
@@ -63,6 +63,7 @@ RUN apt-get update \
         autoconf automake curl g++ libtool make \
 <? } else { ?>
  && toolDeps=" \
+        adduser \
         autoconf automake curl g++ libtool make pkg-config \
     " \
  && apt-get install -y --no-install-recommends --no-install-suggests \
