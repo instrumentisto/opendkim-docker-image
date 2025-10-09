@@ -6,12 +6,14 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## main
+## [2.11.0-Beta2-r29] · 2025-10-09
+[2.11.0-Beta2-r29]: /../../tree/2.11.0-Beta2-r29
 
-[Diff](/../../compare/2.11.0-Beta2-r28...main)
+[Diff](/../../compare/2.11.0-Beta2-r28...2.11.0-Beta2-r29)
 
 ### Security updated
 
+- [Alpine Linux] 3.22.2: <https://github.com/docker-library/official-images/commit/fdacb511822ac9045ec7ec066c1228f94291139f>
 - [Debian Linux] "trixie" 20250929 (13.1): <https://github.com/docker-library/official-images/commit/bb9759b29477674ff2e13518ec2de144fb863b35>
 
 
