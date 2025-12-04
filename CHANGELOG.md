@@ -6,9 +6,14 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## main
+## [2.11.0-Beta2-r30] · 2025-12-04
+[2.11.0-Beta2-r30]: /../../tree/2.11.0-Beta2-r30
 
-[Diff](/../../compare/2.11.0-Beta2-r29...main)
+[Diff](/../../compare/2.11.0-Beta2-r29...2.11.0-Beta2-r30)
+
+### Upgraded
+
+- [Alpine Linux] 3.23: <https://www.alpinelinux.org/posts/Alpine-3.23.0-released.html>
 
 ### Security updated
 
