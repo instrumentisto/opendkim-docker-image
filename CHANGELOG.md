@@ -6,6 +6,17 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/2.11.0-Beta2-r31...main)
+
+### Security updated
+
+- [Debian Linux] "trixie" 20251229 (13.2): <https://github.com/docker-library/official-images/commit/75258b45695c052980fce53c610b7ec5f700db87>
+
+
+
+
 ## [2.11.0-Beta2-r31] · 2025-12-18
 [2.11.0-Beta2-r31]: /../../tree/2.11.0-Beta2-r31
 
