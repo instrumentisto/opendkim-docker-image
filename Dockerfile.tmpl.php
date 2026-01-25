@@ -15,7 +15,7 @@ FROM debian:trixie-slim
 <? } ?>
 
 ARG opendkim_ver=<?= explode('-', $var['version'])[0].'-'.explode('-', $var['version'])[1]."\n"; ?>
-ARG s6_overlay_ver=3.2.1.0
+ARG s6_overlay_ver=3.2.2.0
 
 
 # Build and install OpenDKIM

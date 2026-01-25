@@ -5,7 +5,7 @@
 FROM alpine:3.23
 
 ARG opendkim_ver=2.11.0-Beta2
-ARG s6_overlay_ver=3.2.1.0
+ARG s6_overlay_ver=3.2.2.0
 
 
 # Build and install OpenDKIM
