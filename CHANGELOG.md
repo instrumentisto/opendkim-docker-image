@@ -6,6 +6,18 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [2.11.0-Beta2-r33] · 2026-01-29
+[2.11.0-Beta2-r33]: /../../tree/2.11.0-Beta2-r33
+
+[Diff](/../../compare/2.11.0-Beta2-r32...2.11.0-Beta2-r33)
+
+### Security updated
+
+- [Alpine Linux] 3.23.3: <https://github.com/docker-library/official-images/commit/11469a99b55a9b5b057d64c583f531417dd1f6c5>
+
+
+
+
 ## [2.11.0-Beta2-r32] · 2026-01-25
 [2.11.0-Beta2-r32]: /../../tree/2.11.0-Beta2-r32
 
