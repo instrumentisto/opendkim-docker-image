@@ -12,7 +12,7 @@ All user visible changes to this project will be documented in this file. This p
 
 ### Security updated
 
-- [Debian Linux] "trixie" 20260316 (13.4): <https://github.com/docker-library/official-images/commit/0604214d39af4886cf7014726f997d80974cb289>
+- [Debian Linux] "trixie" 20260406 (13.4): <https://github.com/docker-library/official-images/commit/14bc77db7b07b8b0321490adf7e9e152f940f802>
 
 
 
